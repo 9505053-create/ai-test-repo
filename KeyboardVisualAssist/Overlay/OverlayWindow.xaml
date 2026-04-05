@@ -9,7 +9,7 @@
         Topmost="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        Width="730" Height="230"
+        Width="730" Height="260"
         SizeToContent="Manual">
 
     <Window.Resources>
@@ -158,7 +158,7 @@
                 <ItemsControl ItemsSource="{Binding KeyCaps}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas Width="720" Height="192"/>
+                            <Canvas Width="720" Height="195"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
