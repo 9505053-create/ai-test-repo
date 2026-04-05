@@ -26,8 +26,6 @@ public partial class OverlayWindow : Window
     #endregion
 
     private readonly OverlayViewModel _viewModel;
-    private bool _isDragging = false;
-
     public OverlayWindow(OverlayViewModel viewModel)
     {
         InitializeComponent();
@@ -115,11 +113,7 @@ public partial class OverlayWindow : Window
     private void OnDragStart(object sender, MouseButtonEventArgs e)
     {
         if (!_viewModel.IsLocked && e.LeftButton == MouseButtonState.Pressed)
-        {
-            _isDragging = true;
             DragMove();
-            _isDragging = false;
-        }
     }
 
     // ── 控制按鈕事件 ─────────────────────────────────────
