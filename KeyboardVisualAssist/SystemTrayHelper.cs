@@ -1,5 +1,5 @@
 using System.Windows;
-using System.Windows.Forms;
+using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardVisualAssist.Logging;
 
 namespace KeyboardVisualAssist;
@@ -10,7 +10,7 @@ namespace KeyboardVisualAssist;
 /// </summary>
 public sealed class SystemTrayHelper : IDisposable
 {
-    private readonly NotifyIcon _notifyIcon;
+    private readonly TaskbarIcon _taskbarIcon;
     private readonly Action _toggleOverlay;
     private readonly Action _toggleLayout;
     private readonly Action _exit;
@@ -21,29 +21,36 @@ public sealed class SystemTrayHelper : IDisposable
         _toggleLayout = toggleLayout;
         _exit = exit;
 
-        _notifyIcon = new NotifyIcon
+        _taskbarIcon = new TaskbarIcon
         {
-            Text = "Keyboard Visual Assist",
-            Visible = true,
-            // Icon 使用預設（可替換為自訂 .ico）
-            Icon = System.Drawing.SystemIcons.Application
+            ToolTipText = "Keyboard Visual Assist",
+            Visibility = Visibility.Visible,
         };
 
-        var menu = new ContextMenuStrip();
-        menu.Items.Add("顯示/隱藏 Overlay", null, (s, e) => _toggleOverlay());
-        menu.Items.Add("切換 Standard / Hsu", null, (s, e) => _toggleLayout());
-        menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("結束", null, (s, e) => _exit());
+        var menu = new System.Windows.Controls.ContextMenu();
 
-        _notifyIcon.ContextMenuStrip = menu;
-        _notifyIcon.DoubleClick += (s, e) => _toggleOverlay();
+        var itemToggle = new System.Windows.Controls.MenuItem { Header = "顯示/隱藏 Overlay" };
+        itemToggle.Click += (s, e) => _toggleOverlay();
+
+        var itemLayout = new System.Windows.Controls.MenuItem { Header = "切換 Standard / Hsu" };
+        itemLayout.Click += (s, e) => _toggleLayout();
+
+        var itemExit = new System.Windows.Controls.MenuItem { Header = "結束" };
+        itemExit.Click += (s, e) => _exit();
+
+        menu.Items.Add(itemToggle);
+        menu.Items.Add(itemLayout);
+        menu.Items.Add(new System.Windows.Controls.Separator());
+        menu.Items.Add(itemExit);
+
+        _taskbarIcon.ContextMenu = menu;
+        _taskbarIcon.TrayMouseDoubleClick += (s, e) => _toggleOverlay();
 
         AppLogger.Info("系統匣圖示建立完成");
     }
 
     public void Dispose()
     {
-        _notifyIcon.Visible = false;
-        _notifyIcon.Dispose();
+        _taskbarIcon.Dispose();
     }
 }
