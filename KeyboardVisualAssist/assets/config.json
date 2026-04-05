@@ -2,7 +2,7 @@
   "DisplayMode": "AlwaysVisible",
   "ViewMode": "Compact",
   "LayoutMode": "Standard",
-  "OverlayLocked": true,
+  "OverlayLocked": false,
   "RememberWindowPosition": true,
   "WindowLeft": -1,
   "WindowTop": -1,

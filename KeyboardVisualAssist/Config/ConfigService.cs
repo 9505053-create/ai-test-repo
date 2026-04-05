@@ -20,7 +20,7 @@ public class AppConfig
 
     // ── 視窗位置與狀態 ────────────────────────────────────
     /// <summary>true = click-through 鎖定；false = 可拖曳</summary>
-    public bool OverlayLocked { get; set; } = true;
+    public bool OverlayLocked { get; set; } = false;
 
     /// <summary>是否記憶視窗位置</summary>
     public bool RememberWindowPosition { get; set; } = true;
