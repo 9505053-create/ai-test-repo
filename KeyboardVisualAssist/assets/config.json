@@ -1,0 +1,18 @@
+{
+  "OverlayLeft": 20,
+  "OverlayTop": -1,
+  "OverlayOpacity": 0.88,
+  "FontSize": 12,
+  "HighlightDurationMs": 500,
+  "RecentKeyCount": 5,
+  "ShowKeyboardMap": true,
+  "ActiveLayout": "Standard",
+  "TargetApps": [
+    "WINWORD.EXE",
+    "EXCEL.EXE",
+    "OUTLOOK.EXE",
+    "notepad.exe",
+    "notepad++.exe",
+    "POWERPNT.EXE"
+  ]
+}

@@ -1,0 +1,14 @@
+<Application x:Class="KeyboardVisualAssist.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <!-- 全域顏色定義 -->
+        <SolidColorBrush x:Key="KeyNormalBrush" Color="#FF2D2D2D"/>
+        <SolidColorBrush x:Key="KeyHighlightBrush" Color="#FF00AAFF"/>
+        <SolidColorBrush x:Key="KeyModifierBrush" Color="#FFFF6600"/>
+        <SolidColorBrush x:Key="KeyTextBrush" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="KeyHsuBrush" Color="#FFCCAA00"/>
+        <SolidColorBrush x:Key="OverlayBgBrush" Color="#CC1A1A1A"/>
+    </Application.Resources>
+</Application>
