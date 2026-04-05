@@ -1,37 +1,52 @@
 <UserControl x:Class="KeyboardVisualAssist.Overlay.KeyButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:KeyboardVisualAssist.Overlay">
 
+    <UserControl.Resources>
+        <local:FadeStateToBrushConverter       x:Key="FadeStateToBrushConv"/>
+        <local:FadeStateToBorderBrushConverter x:Key="FadeStateToBorderConv"/>
+        <local:StringToVisibilityConverter     x:Key="StringToVisConv"/>
+    </UserControl.Resources>
+
+    <!-- 鍵帽本體 -->
     <Border x:Name="KeyBorder"
-            Background="#FF2D2D2D"
-            BorderBrush="#FF555555"
-            BorderThickness="1"
+            Height="34"
             CornerRadius="4"
             Margin="1.5"
-            Height="34">
+            BorderThickness="1">
 
-        <!-- 寬度由 Code-behind 根據 WidthMultiplier 設定 -->
+        <!-- Background：由 FadeState + IsModifier 決定 -->
+        <Border.Background>
+            <MultiBinding Converter="{StaticResource FadeStateToBrushConv}">
+                <Binding Path="DisplayFadeState"/>
+                <Binding Path="IsModifier"/>
+            </MultiBinding>
+        </Border.Background>
+
+        <!-- BorderBrush：Pressed/Fading 時加亮 -->
+        <Border.BorderBrush>
+            <Binding Path="DisplayFadeState" Converter="{StaticResource FadeStateToBorderConv}"/>
+        </Border.BorderBrush>
 
         <Grid>
-            <!-- 許氏符號（左上小字）-->
-            <TextBlock x:Name="HsuText"
-                       Text="{Binding HsuLabel}"
+            <!-- SecondaryLabel：許氏符號（左上小字，僅 Hsu 模式有內容時顯示）-->
+            <TextBlock Text="{Binding SecondaryLabel}"
                        Foreground="#FFCCAA00"
-                       FontSize="9"
+                       FontSize="8"
                        FontFamily="Microsoft JhengHei UI"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
                        Margin="3,2,0,0"
-                       Visibility="Collapsed"/>
+                       Visibility="{Binding SecondaryLabel, Converter={StaticResource StringToVisConv}}"/>
 
-            <!-- 主顯示標籤（Standard 字母 / 數字）-->
+            <!-- PrimaryLabel：英文/鍵名（主要大字）-->
             <TextBlock x:Name="MainText"
-                       Text="{Binding StandardLabel}"
+                       Text="{Binding PrimaryLabel}"
                        Foreground="White"
-                       FontSize="11"
                        FontFamily="Consolas"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>
