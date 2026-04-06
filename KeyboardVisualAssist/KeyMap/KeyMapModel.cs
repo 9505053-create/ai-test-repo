@@ -19,7 +19,7 @@ public class KeyMapEntry
     public bool IsWideKey { get; set; }
 
     public int Row { get; set; }
-    public int Col { get; set; }
+    public double Col { get; set; }
     public double WidthMultiplier { get; set; } = 1.0;
 
     /// <summary>功能區分類：Main / Function / Navigation / Numpad</summary>
