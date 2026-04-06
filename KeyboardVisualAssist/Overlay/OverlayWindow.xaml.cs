@@ -21,7 +21,7 @@ public partial class OverlayWindow : Window
     private readonly OverlayViewModel _viewModel;
     private const double ControlBarHeight = 36.0;  // 標題列高度（含 scale）
 
-    private double _savedLeft, _savedTop, _savedWidth, _savedHeight;
+    private double _savedLeft, _savedTop;
     private bool _isMinimized = false;
 
     public OverlayWindow(OverlayViewModel viewModel)
