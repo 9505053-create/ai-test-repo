@@ -107,7 +107,14 @@ public class StringToVisibilityConverter : IValueConverter
 public class LabelModeToVisibilityConverter : IMultiValueConverter
 {
     /// values[0]=LabelMode(string), values[1]=LabelType
-    /// LabelType: "Primary" / "Traditional" / "Hsu" / "CenterTraditional" / "CenterHsu"
+    /// LabelType: Primary / Traditional / Hsu / HsuShift / HsuShiftEng
+    ///            CenterTraditional / CenterHsu
+    /// 
+    /// All:            Primary(中央) + Traditional(左上藍) + HsuShift(右上橙) + Hsu(左下紅)
+    /// EnglishOnly:    Primary(中央)
+    /// TraditionalOnly: CenterTraditional(中央大字藍)
+    /// HsuOnly:        CenterHsu(中央大字紅) + CenterHsu Shift(右上橙)
+    /// EnglishAndHsu:  Primary(中央) + Hsu(左下紅) + HsuShiftEng(右下橙)
     public object Convert(object[] values, Type t, object p, CultureInfo c)
     {
         var mode      = values[0] as string ?? "All";
@@ -116,10 +123,10 @@ public class LabelModeToVisibilityConverter : IMultiValueConverter
         {
             "EnglishOnly"     => labelType == "Primary",
             "TraditionalOnly" => labelType == "CenterTraditional",
-            "HsuOnly"         => labelType == "CenterHsu",
-            "EnglishAndHsu"   => labelType is "Primary" or "Hsu",
-            // "All"：英文(中央) + 傳統注音(左上藍) + 許氏(左上紅, 右上橙)
-            _                 => labelType is "Primary" or "Traditional" or "Hsu"
+            "HsuOnly"         => labelType is "CenterHsu",
+            "EnglishAndHsu"   => labelType is "Primary" or "Hsu" or "HsuShiftEng",
+            // All：英文中央 + 傳統注音左上 + 許氏Shift右上 + 許氏主音左下
+            _                 => labelType is "Primary" or "Traditional" or "HsuShift" or "Hsu"
         };
         return visible ? Visibility.Visible : Visibility.Collapsed;
     }

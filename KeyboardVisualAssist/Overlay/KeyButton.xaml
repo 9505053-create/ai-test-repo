@@ -21,11 +21,13 @@
         </Border.BorderBrush>
 
         <Grid>
-            <!-- 傳統注音大字（藍色，TraditionalOnly 時中央顯示）-->
+            <!-- ═══ 單模式大字（TraditionalOnly / HsuOnly）═══ -->
+
+            <!-- TraditionalOnly：傳統注音藍色大字，置中 -->
             <TextBlock x:Name="TraditionalCenterText"
                        Foreground="#FF66BBFF"
                        FontFamily="Microsoft JhengHei UI"
-                       FontSize="13" FontWeight="SemiBold"
+                       FontSize="14" FontWeight="SemiBold"
                        VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
@@ -35,12 +37,13 @@
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- 許氏注音大字（紅色，HsuOnly 時中央顯示）-->
+            <!-- HsuOnly：許氏主音紅色大字，置中偏下 -->
             <TextBlock x:Name="HsuCenterText"
                        Foreground="#FFFF5555"
                        FontFamily="Microsoft JhengHei UI"
-                       FontSize="13" FontWeight="SemiBold"
-                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                       FontSize="12" FontWeight="SemiBold"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Margin="0,6,0,0">
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
                         <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
@@ -49,7 +52,25 @@
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- 傳統注音小字（藍色，左上角，All 時顯示）-->
+            <!-- HsuOnly：許氏 Shift 音橙色小字，右上 -->
+            <TextBlock x:Name="HsuShiftCenterText"
+                       Text="{Binding SecondaryShiftLabel}"
+                       Foreground="#FFFF9900"
+                       FontFamily="Microsoft JhengHei UI"
+                       FontSize="8"
+                       VerticalAlignment="Top" HorizontalAlignment="Right"
+                       Margin="0,3,3,0">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="CenterHsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- ═══ All 模式：三層顯示 ═══ -->
+
+            <!-- All：傳統注音藍色，左上 -->
             <TextBlock Text="{Binding TraditionalLabel}"
                        Foreground="#FF4499FF"
                        FontSize="8" FontFamily="Microsoft JhengHei UI"
@@ -63,7 +84,7 @@
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- 許氏 Shift 音（橙色，右上角）-->
+            <!-- All：許氏 Shift 音橙色，右上 -->
             <TextBlock Text="{Binding SecondaryShiftLabel}"
                        Foreground="#FFFF9900"
                        FontSize="7" FontFamily="Microsoft JhengHei UI"
@@ -72,17 +93,17 @@
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
                         <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                        <Binding Source="Hsu"/>
+                        <Binding Source="HsuShift"/>
                     </MultiBinding>
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- 許氏主音（紅色，左上角）-->
+            <!-- All / EnglishAndHsu：許氏主音紅色，左下 -->
             <TextBlock Text="{Binding SecondaryLabel}"
                        Foreground="#FFFF4444"
                        FontSize="8" FontFamily="Microsoft JhengHei UI"
-                       VerticalAlignment="Top" HorizontalAlignment="Left"
-                       Margin="3,2,0,0">
+                       VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                       Margin="3,0,0,2">
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
                         <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
@@ -91,7 +112,21 @@
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- 英文主標籤（白色，中央）-->
+            <!-- EnglishAndHsu：許氏 Shift 音橙色，右下 -->
+            <TextBlock Text="{Binding SecondaryShiftLabel}"
+                       Foreground="#FFFF9900"
+                       FontSize="7" FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                       Margin="0,0,3,2">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="HsuShiftEng"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- ═══ 英文主標籤（白色，中央）═══ -->
             <TextBlock x:Name="MainText"
                        Text="{Binding PrimaryLabel}"
                        Foreground="White"

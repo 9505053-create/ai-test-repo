@@ -50,10 +50,10 @@ public partial class KeyButton : UserControl
 
     private void UpdateCenterPhonetic(KeyCapViewModel vm)
     {
-        // CenterPhoneticText 在 TraditionalOnly/HsuOnly 模式下為大字中央顯示
-        // 實際顯示內容取決於當前 LabelMode，由 XAML DataTrigger 或 code-behind 切換
-        // 這裡設置兩個 TextBlock 分別對應兩種模式
         TraditionalCenterText.Text = vm.TraditionalLabel;
         HsuCenterText.Text = vm.SecondaryLabel;
+        // HsuShiftCenterText 在 HsuOnly 模式右上角顯示 Shift 音
+        if (HsuShiftCenterText != null)
+            HsuShiftCenterText.Text = vm.SecondaryShiftLabel;
     }
 }
