@@ -14,8 +14,10 @@ public class KeyCapViewModel : INotifyPropertyChanged
     public string PrimaryLabel { get; set; } = "";
     /// <summary>傳統注音（藍色，Standard 模式下的注音）</summary>
     public string TraditionalLabel { get; set; } = "";
-    /// <summary>許氏符號（紅色）</summary>
+    /// <summary>許氏主音（紅色，左下角）</summary>
     public string SecondaryLabel { get; set; } = "";
+    /// <summary>許氏 Shift 音（橙色，左上角）</summary>
+    public string SecondaryShiftLabel { get; set; } = "";
 
     // ── 特性 ─────────────────────────────────────────────
     public bool IsModifier { get; set; }

@@ -115,7 +115,8 @@ public partial class OverlayViewModel : INotifyPropertyChanged
                 VkCode          = entry.VkCode,
                 PrimaryLabel    = entry.StandardLabel,
                 TraditionalLabel = "",          // 傳統注音：目前 keymap 無此欄，保留空
-                SecondaryLabel  = entry.HsuLabel,
+                SecondaryLabel      = entry.HsuLabel,
+                SecondaryShiftLabel = entry.HsuShiftLabel,
                 IsModifier      = entry.IsModifier,
                 IsFunctionKey   = entry.IsFunctionKey,
                 WidthUnit       = entry.WidthMultiplier,

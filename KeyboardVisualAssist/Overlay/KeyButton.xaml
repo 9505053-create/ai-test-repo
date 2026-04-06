@@ -27,7 +27,25 @@
         </Border.BorderBrush>
 
         <Grid>
-            <!-- 許氏符號（紅色，左上，HsuOnly / EnglishAndHsu / All 時顯示）-->
+            <!-- 許氏 Shift 音（橙色，右上，顯示條件同許氏主音）-->
+            <TextBlock x:Name="HsuShiftText"
+                       Text="{Binding SecondaryShiftLabel}"
+                       Foreground="#FFFF9900"
+                       FontSize="7"
+                       FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"
+                       Margin="0,2,3,0">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode"
+                                 RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- 許氏主音（紅色，左上，HsuOnly / EnglishAndHsu / All 時顯示）-->
             <TextBlock x:Name="HsuText"
                        Text="{Binding SecondaryLabel}"
                        Foreground="#FFFF4444"
