@@ -19,10 +19,9 @@ public partial class OverlayWindow : Window
     #endregion
 
     private readonly OverlayViewModel _viewModel;
-    private const double ControlBarHeight = 34.0;
+    private const double ControlBarHeight = 36.0;  // 標題列高度（含 scale）
 
-    // 縮小前的位置（還原用）
-    private double _savedLeft, _savedTop;
+    private double _savedLeft, _savedTop, _savedWidth, _savedHeight;
     private bool _isMinimized = false;
 
     public OverlayWindow(OverlayViewModel viewModel)
@@ -31,9 +30,6 @@ public partial class OverlayWindow : Window
         _viewModel = viewModel;
         DataContext = viewModel;
         Opacity = viewModel.GetConfig().OverlayOpacity;
-
-        // 視窗尺寸依 ScaleMode 初始化
-        ApplyBaseSize();
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -45,27 +41,19 @@ public partial class OverlayWindow : Window
         PositionWindow();
     }
 
-    // ── 視窗尺寸 ─────────────────────────────────────────
-
-    private void ApplyBaseSize()
-    {
-        // 固定 base 尺寸，縮放由 LayoutTransform 的 WindowScale 控制
-        Width  = 590;
-        Height = 265;
-    }
-
-    // ── WM_NCHITTEST：分區穿透 ───────────────────────────
+    // ── WM_NCHITTEST 分區穿透 ─────────────────────────────
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         if (msg == WM_NCHITTEST)
         {
-            int screenX = (short)(lParam.ToInt32() & 0xFFFF);
-            int screenY = (short)((lParam.ToInt32() >> 16) & 0xFFFF);
-            var pt = PointFromScreen(new Point(screenX, screenY));
+            int sx = (short)(lParam.ToInt32() & 0xFFFF);
+            int sy = (short)((lParam.ToInt32() >> 16) & 0xFFFF);
+            var pt = PointFromScreen(new Point(sx, sy));
 
-            // 標題列 + 底部條：永遠可點擊
-            if (pt.Y <= ControlBarHeight || pt.Y >= ActualHeight - 30)
+            // 標題列（頂部）或底部條 → 永遠可點擊
+            double scaledCtrlHeight = ControlBarHeight * _viewModel.WindowScale;
+            if (pt.Y <= scaledCtrlHeight || pt.Y >= ActualHeight - 24 * _viewModel.WindowScale)
             {
                 handled = true;
                 return new IntPtr(HTCLIENT);
@@ -86,34 +74,37 @@ public partial class OverlayWindow : Window
         var hwnd = new WindowInteropHelper(this).Handle;
         int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
         exStyle |= WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW;
-        exStyle &= ~0x00000020; // 清除 WS_EX_TRANSPARENT
+        exStyle &= ~0x00000020;
         SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
     }
 
-    public void SetLocked(bool locked) { /* WndProc 即時判斷，無需額外操作 */ }
+    public void SetLocked(bool locked) { /* WndProc 即時判斷 */ }
 
     // ── 位置 ─────────────────────────────────────────────
 
     private void PositionWindow()
     {
-        var config = _viewModel.GetConfig();
-        if (config.RememberWindowPosition && config.WindowLeft >= 0 && config.WindowTop >= 0)
+        var cfg = _viewModel.GetConfig();
+        var screen = SystemParameters.WorkArea;
+        if (cfg.RememberWindowPosition && cfg.WindowLeft >= 0 && cfg.WindowTop >= 0)
         {
-            var screen = SystemParameters.WorkArea;
-            Left = Math.Max(0, Math.Min(config.WindowLeft, screen.Width  - Width  - 8));
-            Top  = Math.Max(0, Math.Min(config.WindowTop,  screen.Height - Height - 8));
+            Left = Math.Max(0, Math.Min(cfg.WindowLeft, screen.Width  - ActualWidth  - 8));
+            Top  = Math.Max(0, Math.Min(cfg.WindowTop,  screen.Height - ActualHeight - 8));
         }
         else
         {
-            var screen = SystemParameters.WorkArea;
-            Left = screen.Right  - Width  - 8;
-            Top  = screen.Bottom - Height - 8;
+            // 右下角定位（等 SizeToContent 算完才能取 ActualWidth）
+            Dispatcher.BeginInvoke(() =>
+            {
+                Left = screen.Right  - ActualWidth  - 8;
+                Top  = screen.Bottom - ActualHeight - 8;
+            }, System.Windows.Threading.DispatcherPriority.Loaded);
         }
     }
 
     protected override void OnActivated(EventArgs e) { /* 不搶焦點 */ }
 
-    // ── 拖曳：標題列任何位置都可拖 ──────────────────────
+    // ── 拖曳 ─────────────────────────────────────────────
 
     private void OnDragStart(object sender, MouseButtonEventArgs e)
     {
@@ -121,7 +112,6 @@ public partial class OverlayWindow : Window
             DragMove();
     }
 
-    // 阻止按鈕區域的 MouseLeftButtonDown 冒泡到標題列的拖曳
     private void StopDragPropagation(object sender, MouseButtonEventArgs e)
         => e.Handled = true;
 
@@ -131,10 +121,7 @@ public partial class OverlayWindow : Window
         => _viewModel.ToggleLayout();
 
     private void OnToggleLock(object sender, RoutedEventArgs e)
-    {
-        _viewModel.ToggleLock();
-        SetLocked(_viewModel.IsLocked);
-    }
+        => _viewModel.ToggleLock();
 
     private void OnToggleView(object sender, RoutedEventArgs e)
         => _viewModel.ToggleViewMode();
@@ -152,20 +139,19 @@ public partial class OverlayWindow : Window
     {
         if (_isMinimized)
         {
-            // 還原
-            Width  = 590;
-            Height = 265;
-            Left   = _savedLeft;
-            Top    = _savedTop;
+            RootBorder.Visibility = Visibility.Visible;
+            Left = _savedLeft;
+            Top  = _savedTop;
             _isMinimized = false;
         }
         else
         {
-            // 縮小為標題列
             _savedLeft = Left;
             _savedTop  = Top;
-            Width  = 200;
-            Height = 38;
+            RootBorder.Visibility = Visibility.Collapsed;
+            // 縮成小條
+            Width  = 120;
+            Height = 28;
             _isMinimized = true;
         }
     }

@@ -9,13 +9,12 @@
         Topmost="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        SizeToContent="Manual">
+        SizeToContent="WidthAndHeight">
 
     <Window.Resources>
         <local:BoolToVisibilityConverter      x:Key="BoolToVisConverter"/>
         <local:RowToYConverter                x:Key="RowToYConverter"/>
         <local:ColToXConverter                x:Key="ColToXConverter"/>
-        <local:WidthUnitToPixelConverter      x:Key="WidthUnitToPixelConv"/>
         <local:StringToVisibilityConverter    x:Key="StringToVisConv"/>
 
         <!-- 控制按鈕樣式 -->
@@ -51,40 +50,38 @@
             </Setter>
         </Style>
 
-        <!-- 視窗控制按鈕（X / − / □）-->
         <Style x:Key="WinBtn" TargetType="Button" BasedOn="{StaticResource CtrlBtn}">
-            <Setter Property="Width"   Value="22"/>
-            <Setter Property="Height"  Value="22"/>
-            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Width"    Value="22"/>
+            <Setter Property="Height"   Value="22"/>
+            <Setter Property="Padding"  Value="0"/>
             <Setter Property="FontSize" Value="11"/>
         </Style>
     </Window.Resources>
 
-    <!-- LayoutTransform 用於整體縮放 -->
-    <Window.LayoutTransform>
-        <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}"/>
-    </Window.LayoutTransform>
-
-    <Border Background="#E8161616"
+    <Border x:Name="RootBorder"
+            Background="#E8161616"
             CornerRadius="8"
             Padding="8,5"
             Visibility="{Binding IsOverlayVisible, Converter={StaticResource BoolToVisConverter}}">
+
+        <!-- 整體縮放套在 Border 的 LayoutTransform，視窗大小自動跟著 SizeToContent -->
+        <Border.LayoutTransform>
+            <ScaleTransform ScaleX="{Binding WindowScale}" ScaleY="{Binding WindowScale}"/>
+        </Border.LayoutTransform>
+
         <DockPanel>
 
             <!-- ══ 標題列 ══ -->
-            <DockPanel DockPanel.Dock="Top" Height="24" Margin="0,0,0,4"
+            <DockPanel DockPanel.Dock="Top" Height="26" Margin="0,0,0,4"
                        MouseLeftButtonDown="OnDragStart" Cursor="SizeAll">
 
-                <!-- 左：圖示 + 標題（拖曳區） -->
                 <TextBlock Text="⌨ KVA" Foreground="#FF666666" FontSize="10"
                            VerticalAlignment="Center" Margin="2,0,6,0"/>
 
-                <!-- 右：視窗控制按鈕 -->
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
                             HorizontalAlignment="Right" VerticalAlignment="Center"
                             MouseLeftButtonDown="StopDragPropagation">
 
-                    <!-- 功能按鈕群 -->
                     <Button Content="{Binding LabelModeLabel}" Click="OnCycleLabelMode"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0"
                             ToolTip="切換標籤模式：全/英/注/許/英+許"/>
@@ -99,29 +96,18 @@
                             ToolTip="鎖定=鍵盤區穿透；解鎖=可互動"/>
                     <Button Content="⌫" Click="OnClearHighlight"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,6,0"
-                            ToolTip="清除高亮狀態"/>
+                            ToolTip="清除高亮"/>
 
-                    <!-- 縮小 / 還原 / 關閉 -->
                     <Button Content="−" Click="OnMinimize"
                             Style="{StaticResource WinBtn}" Margin="0,0,2,0"
-                            ToolTip="縮小（隱藏）"/>
+                            ToolTip="縮小/還原"/>
                     <Button Content="□" Click="OnToggleView"
                             Style="{StaticResource WinBtn}" Margin="0,0,2,0"
-                            ToolTip="Compact / Full 切換"/>
+                            ToolTip="Compact / Full"/>
                     <Button Content="✕" Click="OnClose"
                             Style="{StaticResource WinBtn}"
-                            ToolTip="關閉">
-                        <Button.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource WinBtn}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FFCC3333"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+                            Foreground="#FFFF6666"
+                            ToolTip="關閉"/>
                 </StackPanel>
             </DockPanel>
 
@@ -157,32 +143,30 @@
                 </DockPanel>
             </Border>
 
-            <!-- ══ 鍵盤主體 ══ -->
-            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding KeyCaps}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="560" Height="195"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <local:KeyButton DataContext="{Binding}"
-                                             Visibility="{Binding IsVisible,
-                                                Converter={StaticResource BoolToVisConverter}}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left"
-                                    Value="{Binding Column, Converter={StaticResource ColToXConverter}}"/>
-                            <Setter Property="Canvas.Top"
-                                    Value="{Binding Row, Converter={StaticResource RowToYConverter}}"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </ScrollViewer>
+            <!-- ══ 鍵盤主體：Canvas 寬度依實際 keymap 計算 ══ -->
+            <ItemsControl ItemsSource="{Binding KeyCaps}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!-- 612px = 最右鍵 key_enter 的右邊界，195px = 5列*38px+餘量 -->
+                        <Canvas Width="614" Height="195"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:KeyButton DataContext="{Binding}"
+                                         Visibility="{Binding IsVisible,
+                                            Converter={StaticResource BoolToVisConverter}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left"
+                                Value="{Binding Column, Converter={StaticResource ColToXConverter}}"/>
+                        <Setter Property="Canvas.Top"
+                                Value="{Binding Row, Converter={StaticResource RowToYConverter}}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
 
         </DockPanel>
     </Border>

@@ -27,10 +27,12 @@ public partial class App : Application
             var config     = ConfigService.Load();
             var repository = new KeyMapRepository();
             repository.LoadAll();
+            AppLogger.Info($"KeyMap 載入完成，共 {repository.AllEntries.Count} 顆按鍵");
 
             _viewModel = new OverlayViewModel(config, repository);
             _overlay   = new OverlayWindow(_viewModel);
             _overlay.Show();
+            AppLogger.Info($"Overlay 視窗已顯示，Log 路徑: {AppLogger.CurrentLogPath}");
 
             _hook = new KeyboardHook();
             _hook.KeyEvent += (s, args) => _viewModel.OnKeyEvent(args);

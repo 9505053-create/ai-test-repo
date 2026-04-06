@@ -96,6 +96,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
 
+        AppLogger.Info($"KeyCaps 建立完成，共 {KeyCaps.Count} 個鍵帽，ViewMode={_viewMode}");
         _queue = new KeyEventQueue(ProcessKeyEvent, intervalMs: 16);
     }
 
@@ -263,7 +264,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         };
         _config.LabelMode = LabelMode;
         ConfigService.Save(_config);
-        AppLogger.Info($"切換 LabelMode: {LabelMode}");
+        AppLogger.Info($"切換 LabelMode: {LabelMode} -> Label顯示: {LabelModeLabel}");
     }
 
     public void CycleScaleMode()
