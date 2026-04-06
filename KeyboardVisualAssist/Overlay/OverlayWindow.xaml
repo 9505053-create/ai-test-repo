@@ -79,15 +79,11 @@
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="鎖定=穿透；解鎖=可互動"/>
                     <Button Content="⌫"                       Click="OnClearHighlight"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="清除高亮"/>
-                    <!-- 透明度調整 -->
-                    <Button Content="◑"                       Click="OnDecreaseOpacity"
-                            Style="{StaticResource WinBtn}"  Margin="0,0,1,0" ToolTip="降低透明度"/>
-                    <Button Content="●"                       Click="OnIncreaseOpacity"
-                            Style="{StaticResource WinBtn}"  Margin="0,0,4,0" ToolTip="增加不透明度"/>
-                    <!-- 視窗控制 -->
-                    <Button Content="−" Click="OnMinimize"   Style="{StaticResource WinBtn}" Margin="0,0,2,0" ToolTip="縮小/還原"/>
-                    <Button Content="□" Click="OnToggleView"  Style="{StaticResource WinBtn}" Margin="0,0,2,0" ToolTip="Compact/Full"/>
-                    <Button Content="✕" Click="OnClose"       Style="{StaticResource WinBtn}" Foreground="#FFFF7777" ToolTip="關閉"/>
+                    <!-- 視窗控制 + 透明度 -->
+                    <Button Content="−"  Click="OnMinimize"        Style="{StaticResource WinBtn}" Margin="0,0,2,0" ToolTip="縮小/還原"/>
+                    <Button Content="◑"  Click="OnDecreaseOpacity"  Style="{StaticResource WinBtn}" Margin="0,0,1,0" ToolTip="降低透明度 (-0.1)"/>
+                    <Button Content="●"  Click="OnIncreaseOpacity"  Style="{StaticResource WinBtn}" Margin="0,0,2,0" ToolTip="增加不透明度 (+0.1)"/>
+                    <Button Content="✕"  Click="OnClose"            Style="{StaticResource WinBtn}" Foreground="#FFFF7777" ToolTip="關閉"/>
                 </StackPanel>
             </DockPanel>
 
