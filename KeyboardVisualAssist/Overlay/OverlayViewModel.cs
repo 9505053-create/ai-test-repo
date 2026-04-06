@@ -42,8 +42,10 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     public string LayoutMode
     {
         get => _layoutMode;
-        set { _layoutMode = value; OnPropertyChanged(); }
+        set { _layoutMode = value; OnPropertyChanged(); OnPropertyChanged(nameof(LayoutLabel)); }
     }
+    /// <summary>顯示用短標籤</summary>
+    public string LayoutLabel => _layoutMode == "Hsu" ? "許氏" : "標準";
 
     private string _viewMode = "Compact";
     public string ViewMode
@@ -235,7 +237,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _config.LayoutMode = _config.LayoutMode == "Hsu" ? "Standard" : "Hsu";
         LayoutMode = _config.LayoutMode;
         ConfigService.Save(_config);
-        AppLogger.Info($"切換 Layout: {_config.LayoutMode}");
+        AppLogger.Info($"切換 Layout: {_config.LayoutMode} ({LayoutLabel})");
     }
 
     public void ToggleLock()
