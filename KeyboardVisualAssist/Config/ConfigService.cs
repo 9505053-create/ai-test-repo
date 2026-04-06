@@ -43,6 +43,14 @@ public class AppConfig
     public bool ShowRecentKeys { get; set; } = true;
     public int RecentKeysCount { get; set; } = 3;
 
+    // ── 標籤顯示模式 ──────────────────────────────────────
+    /// <summary>All / EnglishOnly / TraditionalOnly / HsuOnly / EnglishAndHsu</summary>
+    public string LabelMode { get; set; } = "All";
+
+    // ── 視窗尺寸 ──────────────────────────────────────────
+    /// <summary>Small / Medium / Large</summary>
+    public string ScaleMode { get; set; } = "Small";
+
     // ── TargetAppsOnly 模式用 ────────────────────────────
     public List<string> TargetApps { get; set; } = new()
     {

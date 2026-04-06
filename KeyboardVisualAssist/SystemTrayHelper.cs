@@ -4,32 +4,19 @@ using KeyboardVisualAssist.Logging;
 
 namespace KeyboardVisualAssist;
 
-/// <summary>
-/// 系統匣常駐圖示 v1.1
-/// 選單：顯示/隱藏、鎖定/解鎖、Layout、Compact/Full、結束
-/// </summary>
 public sealed class SystemTrayHelper : IDisposable
 {
     private readonly TaskbarIcon _taskbarIcon;
-    private readonly Action _toggleOverlay;
-    private readonly Action _toggleLayout;
-    private readonly Action _toggleLock;
-    private readonly Action _toggleView;
-    private readonly Action _exit;
 
     public SystemTrayHelper(
         Action toggleOverlay,
         Action toggleLayout,
         Action toggleLock,
         Action toggleView,
+        Action cycleLabelMode,
+        Action clearHighlight,
         Action exit)
     {
-        _toggleOverlay = toggleOverlay;
-        _toggleLayout  = toggleLayout;
-        _toggleLock    = toggleLock;
-        _toggleView    = toggleView;
-        _exit          = exit;
-
         _taskbarIcon = new TaskbarIcon
         {
             ToolTipText = "Keyboard Visual Assist",
@@ -37,18 +24,18 @@ public sealed class SystemTrayHelper : IDisposable
         };
 
         var menu = new System.Windows.Controls.ContextMenu();
-
-        AddItem(menu, "顯示 / 隱藏",          _toggleOverlay);
-        AddItem(menu, "🔒 鎖定 / 🔓 解鎖",    _toggleLock);
+        AddItem(menu, "顯示 / 隱藏",           toggleOverlay);
+        AddItem(menu, "🔒 鎖定 / 🔓 解鎖",     toggleLock);
         menu.Items.Add(new System.Windows.Controls.Separator());
-        AddItem(menu, "切換 Standard / Hsu",   _toggleLayout);
-        AddItem(menu, "切換 Compact / Full",    _toggleView);
+        AddItem(menu, "切換 Standard / Hsu",    toggleLayout);
+        AddItem(menu, "切換標籤模式",            cycleLabelMode);
+        AddItem(menu, "切換 Compact / Full",     toggleView);
+        AddItem(menu, "⌫ 清除高亮",             clearHighlight);
         menu.Items.Add(new System.Windows.Controls.Separator());
-        AddItem(menu, "結束",                  _exit);
+        AddItem(menu, "結束",                   exit);
 
         _taskbarIcon.ContextMenu = menu;
-        _taskbarIcon.TrayMouseDoubleClick += (s, e) => _toggleOverlay();
-
+        _taskbarIcon.TrayMouseDoubleClick += (s, e) => toggleOverlay();
         AppLogger.Info("系統匣圖示建立完成");
     }
 

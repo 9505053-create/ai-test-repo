@@ -18,5 +18,7 @@
     "notepad.exe",
     "notepad++.exe",
     "POWERPNT.EXE"
-  ]
+  ],
+  "LabelMode": "All",
+  "ScaleMode": "Small"
 }

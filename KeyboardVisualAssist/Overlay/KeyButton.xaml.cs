@@ -1,14 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
-using KeyboardVisualAssist.Overlay;
 
 namespace KeyboardVisualAssist.Overlay;
 
-/// <summary>
-/// KeyButton Code-behind v1.1
-/// DataContext = KeyCapViewModel（由 OverlayWindow XAML 透過 ItemsControl 綁定）
-/// 寬度由 WidthUnit 決定，其餘全部透過 Binding 驅動
-/// </summary>
 public partial class KeyButton : UserControl
 {
     private const double BaseKeyWidth = 38.0;
@@ -22,26 +16,45 @@ public partial class KeyButton : UserControl
     private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
         if (e.NewValue is KeyCapViewModel vm)
-            ApplyWidth(vm);
+            ApplyKeyStyle(vm);
     }
 
-    private void ApplyWidth(KeyCapViewModel vm)
+    private void ApplyKeyStyle(KeyCapViewModel vm)
     {
-        // 寬度由 WidthUnit 計算，含 Margin 3px（左右各 1.5）
+        // 鍵帽寬度
         KeyBorder.Width = vm.WidthUnit * BaseKeyWidth - 3;
 
-        // 修飾鍵/功能鍵用稍小字體
-        if (vm.IsModifier || vm.IsFunctionKey)
-            MainText.FontSize = 9;
-        else
-            MainText.FontSize = 11;
+        // 字體大小
+        double fontSize = vm.IsModifier || vm.IsFunctionKey ? 9 : 11;
+        MainText.FontSize = fontSize;
 
-        // 寬鍵（WidthUnit > 1.5）文字靠左
+        // 寬鍵文字靠左
         if (vm.WidthUnit > 1.5)
         {
             MainText.HorizontalAlignment = HorizontalAlignment.Left;
             MainText.Margin = new Thickness(6, 0, 0, 0);
             MainText.FontSize = 9;
         }
+
+        // CenterPhonetic：TraditionalOnly 顯示 Traditional，HsuOnly 顯示 Hsu
+        // 用 DataContext Binding 自動更新，這裡設初始值
+        UpdateCenterPhonetic(vm);
+        vm.PropertyChanged += (s, ev) =>
+        {
+            if (ev.PropertyName is nameof(KeyCapViewModel.SecondaryLabel)
+                                 or nameof(KeyCapViewModel.TraditionalLabel))
+                UpdateCenterPhonetic(vm);
+        };
+    }
+
+    private void UpdateCenterPhonetic(KeyCapViewModel vm)
+    {
+        // CenterPhonetic 的 Text 依 LabelMode 動態決定
+        // 因為 LabelMode 在 Window 的 DataContext，這裡只設好備用值
+        // 實際 Visibility 由 XAML Converter 控制
+        // Text 設為 Traditional 優先，若空則用 Hsu
+        CenterPhoneticText.Text = !string.IsNullOrEmpty(vm.TraditionalLabel)
+            ? vm.TraditionalLabel
+            : vm.SecondaryLabel;
     }
 }

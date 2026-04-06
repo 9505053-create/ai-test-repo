@@ -7,46 +7,93 @@
         <local:FadeStateToBrushConverter       x:Key="FadeStateToBrushConv"/>
         <local:FadeStateToBorderBrushConverter x:Key="FadeStateToBorderConv"/>
         <local:StringToVisibilityConverter     x:Key="StringToVisConv"/>
+        <local:LabelModeToVisibilityConverter  x:Key="LabelModeToVisConv"/>
     </UserControl.Resources>
 
-    <!-- 鍵帽本體 -->
     <Border x:Name="KeyBorder"
             Height="34"
             CornerRadius="4"
             Margin="1.5"
             BorderThickness="1">
 
-        <!-- Background：由 FadeState + IsModifier 決定 -->
         <Border.Background>
             <MultiBinding Converter="{StaticResource FadeStateToBrushConv}">
                 <Binding Path="DisplayFadeState"/>
                 <Binding Path="IsModifier"/>
             </MultiBinding>
         </Border.Background>
-
-        <!-- BorderBrush：Pressed/Fading 時加亮 -->
         <Border.BorderBrush>
             <Binding Path="DisplayFadeState" Converter="{StaticResource FadeStateToBorderConv}"/>
         </Border.BorderBrush>
 
         <Grid>
-            <!-- SecondaryLabel：許氏符號（左上小字，僅 Hsu 模式有內容時顯示）-->
-            <TextBlock Text="{Binding SecondaryLabel}"
-                       Foreground="#FFCCAA00"
+            <!-- 許氏符號（紅色，左上，HsuOnly / EnglishAndHsu / All 時顯示）-->
+            <TextBlock x:Name="HsuText"
+                       Text="{Binding SecondaryLabel}"
+                       Foreground="#FFFF4444"
                        FontSize="8"
                        FontFamily="Microsoft JhengHei UI"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
-                       Margin="3,2,0,0"
-                       Visibility="{Binding SecondaryLabel, Converter={StaticResource StringToVisConv}}"/>
+                       Margin="3,2,0,0">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode"
+                                 RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
 
-            <!-- PrimaryLabel：英文/鍵名（主要大字）-->
+            <!-- 傳統注音（藍色，右上，TraditionalOnly / All 時顯示）-->
+            <TextBlock x:Name="TraditionalText"
+                       Text="{Binding TraditionalLabel}"
+                       Foreground="#FF4499FF"
+                       FontSize="8"
+                       FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"
+                       Margin="0,2,3,0">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode"
+                                 RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Traditional"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- 英文主標籤（白色，中央，EnglishOnly / EnglishAndHsu / All 時顯示）-->
             <TextBlock x:Name="MainText"
                        Text="{Binding PrimaryLabel}"
                        Foreground="White"
                        FontFamily="Consolas"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode"
+                                 RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Primary"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- TraditionalOnly / HsuOnly 模式：注音/許氏放中央大字 -->
+            <TextBlock x:Name="CenterPhoneticText"
+                       Foreground="#FF88CCFF"
+                       FontFamily="Microsoft JhengHei UI"
+                       FontSize="12"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode"
+                                 RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="CenterPhonetic"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
         </Grid>
     </Border>
 </UserControl>

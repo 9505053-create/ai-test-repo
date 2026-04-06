@@ -20,48 +20,41 @@ public partial class App : Application
     {
         base.OnStartup(e);
         AppLogger.Init();
-        AppLogger.Info("KeyboardVisualAssist v1.1 啟動");
+        AppLogger.Info("KeyboardVisualAssist v1.2 啟動");
 
         try
         {
-            var config = ConfigService.Load();
-            AppLogger.Info($"設定載入：DisplayMode={config.DisplayMode}, Layout={config.LayoutMode}");
-
+            var config     = ConfigService.Load();
             var repository = new KeyMapRepository();
             repository.LoadAll();
 
             _viewModel = new OverlayViewModel(config, repository);
-            _overlay = new OverlayWindow(_viewModel);
+            _overlay   = new OverlayWindow(_viewModel);
             _overlay.Show();
 
-            // 鍵盤 Hook
             _hook = new KeyboardHook();
             _hook.KeyEvent += (s, args) => _viewModel.OnKeyEvent(args);
             _hook.Install();
-            AppLogger.Info("鍵盤 Hook 安裝完成");
 
-            // DisplayMode 決定是否啟動前景監控
             if (config.DisplayMode == "TargetAppsOnly")
             {
                 _monitor = new ForegroundAppMonitor(config.TargetApps);
-                _monitor.AppChanged += (visible) =>
+                _monitor.AppChanged += visible =>
                     Dispatcher.Invoke(() => _viewModel.IsOverlayVisible = visible);
                 _monitor.Start();
-                AppLogger.Info("TargetAppsOnly 模式：前景監控啟動");
             }
             else
             {
-                // AlwaysVisible：Overlay 永遠顯示
                 _viewModel.IsOverlayVisible = true;
-                AppLogger.Info("AlwaysVisible 模式：Overlay 常駐顯示");
             }
 
-            // 系統匣
             _tray = new SystemTrayHelper(
-                toggleOverlay:  () => Dispatcher.Invoke(ToggleOverlayVisible),
+                toggleOverlay:  () => Dispatcher.Invoke(ToggleOverlay),
                 toggleLayout:   () => Dispatcher.Invoke(() => _viewModel.ToggleLayout()),
                 toggleLock:     () => Dispatcher.Invoke(ToggleLock),
                 toggleView:     () => Dispatcher.Invoke(() => _viewModel.ToggleViewMode()),
+                cycleLabelMode: () => Dispatcher.Invoke(() => _viewModel.CycleLabelMode()),
+                clearHighlight: () => Dispatcher.Invoke(() => _viewModel.ClearHighlight()),
                 exit:           () => Dispatcher.Invoke(Shutdown)
             );
         }
@@ -74,10 +67,10 @@ public partial class App : Application
         }
     }
 
-    private void ToggleOverlayVisible()
+    private void ToggleOverlay()
     {
-        if (_viewModel == null) return;
-        _viewModel.IsOverlayVisible = !_viewModel.IsOverlayVisible;
+        if (_viewModel != null)
+            _viewModel.IsOverlayVisible = !_viewModel.IsOverlayVisible;
     }
 
     private void ToggleLock()

@@ -5,35 +5,25 @@ using System.Windows.Interop;
 
 namespace KeyboardVisualAssist.Overlay;
 
-/// <summary>
-/// Overlay 視窗 Code-behind v1.2
-/// 核心改進：WM_NCHITTEST 攔截
-/// - 控制列（標題+按鈕）永遠可點擊
-/// - 鍵盤主體區域在 Locked 時 click-through
-/// - WS_EX_TRANSPARENT 完全廢棄，改用 HitTest 方案
-/// </summary>
 public partial class OverlayWindow : Window
 {
     #region Win32 API
-
-    private const int GWL_EXSTYLE       = -20;
-    private const int WS_EX_NOACTIVATE  = 0x08000000;
-    private const int WS_EX_TOOLWINDOW  = 0x00000080;
-
-    private const int WM_NCHITTEST      = 0x0084;
-    private const int HTCLIENT          = 1;
-    private const int HTTRANSPARENT     = -1;
-
-    [DllImport("user32.dll")] private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-    [DllImport("user32.dll")] private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
+    private const int GWL_EXSTYLE      = -20;
+    private const int WS_EX_NOACTIVATE = 0x08000000;
+    private const int WS_EX_TOOLWINDOW = 0x00000080;
+    private const int WM_NCHITTEST     = 0x0084;
+    private const int HTCLIENT         = 1;
+    private const int HTTRANSPARENT    = -1;
+    [DllImport("user32.dll")] static extern int GetWindowLong(IntPtr h, int n);
+    [DllImport("user32.dll")] static extern int SetWindowLong(IntPtr h, int n, int v);
     #endregion
 
     private readonly OverlayViewModel _viewModel;
-
-    // 控制列高度（標題列 + margin）
-    // 滑鼠落在這個高度以內 → 永遠回 HTCLIENT（可點擊）
     private const double ControlBarHeight = 34.0;
+
+    // 縮小前的位置（還原用）
+    private double _savedLeft, _savedTop;
+    private bool _isMinimized = false;
 
     public OverlayWindow(OverlayViewModel viewModel)
     {
@@ -41,95 +31,77 @@ public partial class OverlayWindow : Window
         _viewModel = viewModel;
         DataContext = viewModel;
         Opacity = viewModel.GetConfig().OverlayOpacity;
+
+        // 視窗尺寸依 ScaleMode 初始化
+        ApplyBaseSize();
     }
 
     protected override void OnSourceInitialized(EventArgs e)
     {
         base.OnSourceInitialized(e);
-
-        // 掛載 WndProc
         var hwnd = new WindowInteropHelper(this).Handle;
         HwndSource.FromHwnd(hwnd)?.AddHook(WndProc);
-
         ApplyWindowStyles();
         PositionWindow();
     }
 
-    // ── WndProc：攔截 HitTest ─────────────────────────────
+    // ── 視窗尺寸 ─────────────────────────────────────────
+
+    private void ApplyBaseSize()
+    {
+        // 固定 base 尺寸，縮放由 LayoutTransform 的 WindowScale 控制
+        Width  = 590;
+        Height = 265;
+    }
+
+    // ── WM_NCHITTEST：分區穿透 ───────────────────────────
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         if (msg == WM_NCHITTEST)
         {
-            // 取得滑鼠相對視窗的 Y 座標（DIP）
-            // lParam 低16位 = 螢幕X，高16位 = 螢幕Y
             int screenX = (short)(lParam.ToInt32() & 0xFFFF);
             int screenY = (short)((lParam.ToInt32() >> 16) & 0xFFFF);
-
-            // 轉換為視窗內部座標
             var pt = PointFromScreen(new Point(screenX, screenY));
 
-            // 控制列區域（頂部 ControlBarHeight px）→ 永遠 HTCLIENT
-            if (pt.Y <= ControlBarHeight)
+            // 標題列 + 底部條：永遠可點擊
+            if (pt.Y <= ControlBarHeight || pt.Y >= ActualHeight - 30)
             {
                 handled = true;
                 return new IntPtr(HTCLIENT);
             }
 
-            // 底部 RecentKeys 條（最後 30px）→ 永遠 HTCLIENT
-            if (pt.Y >= ActualHeight - 30)
-            {
-                handled = true;
-                return new IntPtr(HTCLIENT);
-            }
-
-            // 鍵盤主體區域：Locked = 穿透，Unlocked = 可互動
+            // 鍵盤主體：Locked 時穿透
             if (_viewModel.IsLocked)
             {
                 handled = true;
                 return new IntPtr(HTTRANSPARENT);
             }
         }
-
         return IntPtr.Zero;
     }
-
-    // ── 視窗樣式（移除 WS_EX_TRANSPARENT）──────────────────
 
     private void ApplyWindowStyles()
     {
         var hwnd = new WindowInteropHelper(this).Handle;
         int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-
-        // 永遠套用：不搶焦點 + 不在 Alt+Tab 顯示
-        // 注意：完全移除 WS_EX_TRANSPARENT，改由 WM_NCHITTEST 控制穿透
         exStyle |= WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW;
-        exStyle &= ~0x00000020; // 確保清除 WS_EX_TRANSPARENT
-
+        exStyle &= ~0x00000020; // 清除 WS_EX_TRANSPARENT
         SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
     }
 
-    /// <summary>Lock/Unlock — 現在只需更新 ViewModel，WndProc 會自動生效</summary>
-    public void SetLocked(bool locked)
-    {
-        // WM_NCHITTEST 方案不需要修改 ExStyle，locked 狀態由 _viewModel.IsLocked 即時判斷
-        // 此方法保留供 App.xaml.cs 呼叫介面相容
-    }
+    public void SetLocked(bool locked) { /* WndProc 即時判斷，無需額外操作 */ }
 
-    // ── 視窗定位 ─────────────────────────────────────────
+    // ── 位置 ─────────────────────────────────────────────
 
     private void PositionWindow()
     {
         var config = _viewModel.GetConfig();
-
-        if (config.RememberWindowPosition &&
-            config.WindowLeft >= 0 && config.WindowTop >= 0)
+        if (config.RememberWindowPosition && config.WindowLeft >= 0 && config.WindowTop >= 0)
         {
             var screen = SystemParameters.WorkArea;
-            double left = Math.Min(config.WindowLeft, screen.Width  - Width  - 8);
-            double top  = Math.Min(config.WindowTop,  screen.Height - Height - 8);
-            Left = Math.Max(0, left);
-            Top  = Math.Max(0, top);
+            Left = Math.Max(0, Math.Min(config.WindowLeft, screen.Width  - Width  - 8));
+            Top  = Math.Max(0, Math.Min(config.WindowTop,  screen.Height - Height - 8));
         }
         else
         {
@@ -139,22 +111,21 @@ public partial class OverlayWindow : Window
         }
     }
 
-    // ── 不搶焦點保護 ─────────────────────────────────────
+    protected override void OnActivated(EventArgs e) { /* 不搶焦點 */ }
 
-    protected override void OnActivated(EventArgs e)
-    {
-        // 不呼叫 base，避免視窗真正 Activate
-    }
-
-    // ── 拖曳（Unlocked 時，滑鼠在標題列拖曳）────────────
+    // ── 拖曳：標題列任何位置都可拖 ──────────────────────
 
     private void OnDragStart(object sender, MouseButtonEventArgs e)
     {
-        if (!_viewModel.IsLocked && e.LeftButton == MouseButtonState.Pressed)
+        if (e.LeftButton == MouseButtonState.Pressed)
             DragMove();
     }
 
-    // ── 控制按鈕事件 ─────────────────────────────────────
+    // 阻止按鈕區域的 MouseLeftButtonDown 冒泡到標題列的拖曳
+    private void StopDragPropagation(object sender, MouseButtonEventArgs e)
+        => e.Handled = true;
+
+    // ── 按鈕事件 ─────────────────────────────────────────
 
     private void OnToggleLayout(object sender, RoutedEventArgs e)
         => _viewModel.ToggleLayout();
@@ -168,7 +139,42 @@ public partial class OverlayWindow : Window
     private void OnToggleView(object sender, RoutedEventArgs e)
         => _viewModel.ToggleViewMode();
 
-    // ── 關閉 ─────────────────────────────────────────────
+    private void OnCycleLabelMode(object sender, RoutedEventArgs e)
+        => _viewModel.CycleLabelMode();
+
+    private void OnCycleScale(object sender, RoutedEventArgs e)
+        => _viewModel.CycleScaleMode();
+
+    private void OnClearHighlight(object sender, RoutedEventArgs e)
+        => _viewModel.ClearHighlight();
+
+    private void OnMinimize(object sender, RoutedEventArgs e)
+    {
+        if (_isMinimized)
+        {
+            // 還原
+            Width  = 590;
+            Height = 265;
+            Left   = _savedLeft;
+            Top    = _savedTop;
+            _isMinimized = false;
+        }
+        else
+        {
+            // 縮小為標題列
+            _savedLeft = Left;
+            _savedTop  = Top;
+            Width  = 200;
+            Height = 38;
+            _isMinimized = true;
+        }
+    }
+
+    private void OnClose(object sender, RoutedEventArgs e)
+    {
+        _viewModel.SaveWindowPosition(Left, Top);
+        Close();
+    }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {

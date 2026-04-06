@@ -5,7 +5,7 @@
     "StandardLabel": "`",
     "StandardShiftLabel": "~",
     "Row": 0,
-    "Col": 0,
+    "Col": 0.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -14,7 +14,7 @@
     "StandardLabel": "1",
     "StandardShiftLabel": "!",
     "Row": 0,
-    "Col": 1,
+    "Col": 1.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -23,7 +23,7 @@
     "StandardLabel": "2",
     "StandardShiftLabel": "@",
     "Row": 0,
-    "Col": 2,
+    "Col": 2.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -32,7 +32,7 @@
     "StandardLabel": "3",
     "StandardShiftLabel": "#",
     "Row": 0,
-    "Col": 3,
+    "Col": 3.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -41,7 +41,7 @@
     "StandardLabel": "4",
     "StandardShiftLabel": "$",
     "Row": 0,
-    "Col": 4,
+    "Col": 4.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -50,7 +50,7 @@
     "StandardLabel": "5",
     "StandardShiftLabel": "%",
     "Row": 0,
-    "Col": 5,
+    "Col": 5.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -59,7 +59,7 @@
     "StandardLabel": "6",
     "StandardShiftLabel": "^",
     "Row": 0,
-    "Col": 6,
+    "Col": 6.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -68,7 +68,7 @@
     "StandardLabel": "7",
     "StandardShiftLabel": "&",
     "Row": 0,
-    "Col": 7,
+    "Col": 7.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -77,7 +77,7 @@
     "StandardLabel": "8",
     "StandardShiftLabel": "*",
     "Row": 0,
-    "Col": 8,
+    "Col": 8.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -86,7 +86,7 @@
     "StandardLabel": "9",
     "StandardShiftLabel": "(",
     "Row": 0,
-    "Col": 9,
+    "Col": 9.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -95,7 +95,7 @@
     "StandardLabel": "0",
     "StandardShiftLabel": ")",
     "Row": 0,
-    "Col": 10,
+    "Col": 10.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -104,7 +104,7 @@
     "StandardLabel": "-",
     "StandardShiftLabel": "_",
     "Row": 0,
-    "Col": 11,
+    "Col": 11.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -113,7 +113,7 @@
     "StandardLabel": "=",
     "StandardShiftLabel": "+",
     "Row": 0,
-    "Col": 12,
+    "Col": 12.0,
     "WidthMultiplier": 1.0
   },
   {
@@ -122,7 +122,7 @@
     "StandardLabel": "⌫",
     "StandardShiftLabel": "",
     "Row": 0,
-    "Col": 13,
+    "Col": 13.0,
     "WidthMultiplier": 2.0,
     "IsFunctionKey": true,
     "IsWideKey": true
@@ -133,7 +133,7 @@
     "StandardLabel": "Tab",
     "StandardShiftLabel": "",
     "Row": 1,
-    "Col": 0,
+    "Col": 0.0,
     "WidthMultiplier": 1.5,
     "IsFunctionKey": true,
     "IsWideKey": true
@@ -144,7 +144,7 @@
     "StandardLabel": "Q",
     "StandardShiftLabel": "Q",
     "Row": 1,
-    "Col": 1,
+    "Col": 1.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -153,7 +153,7 @@
     "StandardLabel": "W",
     "StandardShiftLabel": "W",
     "Row": 1,
-    "Col": 2,
+    "Col": 2.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -162,7 +162,7 @@
     "StandardLabel": "E",
     "StandardShiftLabel": "E",
     "Row": 1,
-    "Col": 3,
+    "Col": 3.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -171,7 +171,7 @@
     "StandardLabel": "R",
     "StandardShiftLabel": "R",
     "Row": 1,
-    "Col": 4,
+    "Col": 4.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -180,7 +180,7 @@
     "StandardLabel": "T",
     "StandardShiftLabel": "T",
     "Row": 1,
-    "Col": 5,
+    "Col": 5.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -189,7 +189,7 @@
     "StandardLabel": "Y",
     "StandardShiftLabel": "Y",
     "Row": 1,
-    "Col": 6,
+    "Col": 6.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -198,7 +198,7 @@
     "StandardLabel": "U",
     "StandardShiftLabel": "U",
     "Row": 1,
-    "Col": 7,
+    "Col": 7.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -207,7 +207,7 @@
     "StandardLabel": "I",
     "StandardShiftLabel": "I",
     "Row": 1,
-    "Col": 8,
+    "Col": 8.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -216,7 +216,7 @@
     "StandardLabel": "O",
     "StandardShiftLabel": "O",
     "Row": 1,
-    "Col": 9,
+    "Col": 9.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -225,7 +225,7 @@
     "StandardLabel": "P",
     "StandardShiftLabel": "P",
     "Row": 1,
-    "Col": 10,
+    "Col": 10.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -234,7 +234,7 @@
     "StandardLabel": "[",
     "StandardShiftLabel": "{",
     "Row": 1,
-    "Col": 11,
+    "Col": 11.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -243,7 +243,7 @@
     "StandardLabel": "]",
     "StandardShiftLabel": "}",
     "Row": 1,
-    "Col": 12,
+    "Col": 12.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -252,7 +252,7 @@
     "StandardLabel": "\\",
     "StandardShiftLabel": "|",
     "Row": 1,
-    "Col": 13,
+    "Col": 13.5,
     "WidthMultiplier": 1.0
   },
   {
@@ -261,7 +261,7 @@
     "StandardLabel": "↵",
     "StandardShiftLabel": "",
     "Row": 1,
-    "Col": 14,
+    "Col": 14.5,
     "WidthMultiplier": 1.5,
     "IsFunctionKey": true,
     "IsWideKey": true
@@ -272,7 +272,7 @@
     "StandardLabel": "Caps",
     "StandardShiftLabel": "",
     "Row": 2,
-    "Col": 0,
+    "Col": 0.0,
     "WidthMultiplier": 1.75,
     "IsModifier": true,
     "IsWideKey": true
@@ -283,7 +283,7 @@
     "StandardLabel": "A",
     "StandardShiftLabel": "A",
     "Row": 2,
-    "Col": 1,
+    "Col": 1.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -292,7 +292,7 @@
     "StandardLabel": "S",
     "StandardShiftLabel": "S",
     "Row": 2,
-    "Col": 2,
+    "Col": 2.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -301,7 +301,7 @@
     "StandardLabel": "D",
     "StandardShiftLabel": "D",
     "Row": 2,
-    "Col": 3,
+    "Col": 3.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -310,7 +310,7 @@
     "StandardLabel": "F",
     "StandardShiftLabel": "F",
     "Row": 2,
-    "Col": 4,
+    "Col": 4.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -319,7 +319,7 @@
     "StandardLabel": "G",
     "StandardShiftLabel": "G",
     "Row": 2,
-    "Col": 5,
+    "Col": 5.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -328,7 +328,7 @@
     "StandardLabel": "H",
     "StandardShiftLabel": "H",
     "Row": 2,
-    "Col": 6,
+    "Col": 6.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -337,7 +337,7 @@
     "StandardLabel": "J",
     "StandardShiftLabel": "J",
     "Row": 2,
-    "Col": 7,
+    "Col": 7.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -346,7 +346,7 @@
     "StandardLabel": "K",
     "StandardShiftLabel": "K",
     "Row": 2,
-    "Col": 8,
+    "Col": 8.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -355,7 +355,7 @@
     "StandardLabel": "L",
     "StandardShiftLabel": "L",
     "Row": 2,
-    "Col": 9,
+    "Col": 9.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -364,7 +364,7 @@
     "StandardLabel": ";",
     "StandardShiftLabel": ":",
     "Row": 2,
-    "Col": 10,
+    "Col": 10.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -373,7 +373,7 @@
     "StandardLabel": "'",
     "StandardShiftLabel": "\"",
     "Row": 2,
-    "Col": 11,
+    "Col": 11.75,
     "WidthMultiplier": 1.0
   },
   {
@@ -382,7 +382,7 @@
     "StandardLabel": "Shift",
     "StandardShiftLabel": "",
     "Row": 3,
-    "Col": 0,
+    "Col": 0.0,
     "WidthMultiplier": 2.25,
     "IsModifier": true,
     "IsWideKey": true
@@ -393,7 +393,7 @@
     "StandardLabel": "Z",
     "StandardShiftLabel": "Z",
     "Row": 3,
-    "Col": 1,
+    "Col": 2.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -402,7 +402,7 @@
     "StandardLabel": "X",
     "StandardShiftLabel": "X",
     "Row": 3,
-    "Col": 2,
+    "Col": 3.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -411,7 +411,7 @@
     "StandardLabel": "C",
     "StandardShiftLabel": "C",
     "Row": 3,
-    "Col": 3,
+    "Col": 4.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -420,7 +420,7 @@
     "StandardLabel": "V",
     "StandardShiftLabel": "V",
     "Row": 3,
-    "Col": 4,
+    "Col": 5.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -429,7 +429,7 @@
     "StandardLabel": "B",
     "StandardShiftLabel": "B",
     "Row": 3,
-    "Col": 5,
+    "Col": 6.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -438,7 +438,7 @@
     "StandardLabel": "N",
     "StandardShiftLabel": "N",
     "Row": 3,
-    "Col": 6,
+    "Col": 7.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -447,7 +447,7 @@
     "StandardLabel": "M",
     "StandardShiftLabel": "M",
     "Row": 3,
-    "Col": 7,
+    "Col": 8.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -456,7 +456,7 @@
     "StandardLabel": ",",
     "StandardShiftLabel": "<",
     "Row": 3,
-    "Col": 8,
+    "Col": 9.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -465,7 +465,7 @@
     "StandardLabel": ".",
     "StandardShiftLabel": ">",
     "Row": 3,
-    "Col": 9,
+    "Col": 10.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -474,7 +474,7 @@
     "StandardLabel": "/",
     "StandardShiftLabel": "?",
     "Row": 3,
-    "Col": 10,
+    "Col": 11.25,
     "WidthMultiplier": 1.0
   },
   {
@@ -483,7 +483,7 @@
     "StandardLabel": "Shift",
     "StandardShiftLabel": "",
     "Row": 3,
-    "Col": 11,
+    "Col": 12.25,
     "WidthMultiplier": 2.75,
     "IsModifier": true,
     "IsWideKey": true
@@ -494,7 +494,7 @@
     "StandardLabel": "Ctrl",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 0,
+    "Col": 0.0,
     "WidthMultiplier": 1.5,
     "IsModifier": true,
     "IsWideKey": true
@@ -505,7 +505,7 @@
     "StandardLabel": "Win",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 1,
+    "Col": 1.5,
     "WidthMultiplier": 1.25,
     "IsModifier": true
   },
@@ -515,7 +515,7 @@
     "StandardLabel": "Alt",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 2,
+    "Col": 2.75,
     "WidthMultiplier": 1.25,
     "IsModifier": true
   },
@@ -525,7 +525,7 @@
     "StandardLabel": "Space",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 3,
+    "Col": 4.0,
     "WidthMultiplier": 6.25,
     "IsWideKey": true
   },
@@ -535,7 +535,7 @@
     "StandardLabel": "Alt",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 4,
+    "Col": 10.25,
     "WidthMultiplier": 1.25,
     "IsModifier": true
   },
@@ -545,7 +545,7 @@
     "StandardLabel": "Fn",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 5,
+    "Col": 11.5,
     "WidthMultiplier": 1.25
   },
   {
@@ -554,7 +554,7 @@
     "StandardLabel": "Ctrl",
     "StandardShiftLabel": "",
     "Row": 4,
-    "Col": 6,
+    "Col": 12.75,
     "WidthMultiplier": 1.5,
     "IsModifier": true,
     "IsWideKey": true
