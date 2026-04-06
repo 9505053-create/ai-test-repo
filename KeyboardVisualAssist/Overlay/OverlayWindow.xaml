@@ -122,48 +122,48 @@
                                          Converter="{x:Static local:BoolToStringConverter.FullHalf}"/>
                             </TextBlock.Text>
                         </TextBlock>
-                        <!-- CapsLock -->
-                        <TextBlock Text="⇪" FontSize="10" VerticalAlignment="Center" Margin="0,0,2,0"
-                                   Foreground="{Binding StatusMonitor.CapsLock,
-                                       Converter={x:Static local:BoolToColorConverter.CapsLockColor}}"/>
-                        <!-- NumLock -->
-                        <TextBlock Text="Num" FontSize="8" VerticalAlignment="Center" Margin="0,0,4,0"
-                                   Foreground="{Binding StatusMonitor.NumLock,
-                                       Converter={x:Static local:BoolToColorConverter.NumLockColor}}"/>
+                        <!-- CapsLock 燈 -->
+                        <Border Padding="3,1" CornerRadius="2" Margin="0,0,3,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2A2A2A"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding StatusMonitor.CapsLock}" Value="True">
+                                            <Setter Property="Background" Value="#FF226644"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="CAPS" FontSize="8" FontFamily="Consolas" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <Binding Path="StatusMonitor.CapsLock"
+                                             Converter="{x:Static local:BoolToColorConverter.CapsLockColor}"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+                        <!-- NumLock 燈 -->
+                        <Border Padding="3,1" CornerRadius="2" Margin="0,0,4,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FF2A2A2A"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding StatusMonitor.NumLock}" Value="True">
+                                            <Setter Property="Background" Value="#FF226644"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="NUM" FontSize="8" FontFamily="Consolas" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <Binding Path="StatusMonitor.NumLock"
+                                             Converter="{x:Static local:BoolToColorConverter.NumLockColor}"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
                         <!-- 輸入法名稱 -->
                         <TextBlock Text="{Binding StatusMonitor.ImeName}"
-                                   FontSize="9" Foreground="#FF666666" VerticalAlignment="Center"
+                                   FontSize="9" Foreground="#FFAAAAAA" VerticalAlignment="Center"
                                    Visibility="{Binding StatusMonitor.ImeName, Converter={StaticResource StringToVisConv}}"/>
-                    </StackPanel>
-
-                    <!-- 最近按鍵（右側）-->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Visibility="{Binding ShowRecentKeys, Converter={StaticResource BoolToVisConverter}}">
-                        <TextBlock Text="近：" Foreground="#FF555555" FontSize="9" VerticalAlignment="Center" Margin="0,0,3,0"/>
-                        <ItemsControl ItemsSource="{Binding RecentKeys}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0,0,2,0" Padding="4,1" CornerRadius="2">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="#FF333333"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsModifier}" Value="True">
-                                                        <Setter Property="Background" Value="#FF4A3000"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock Text="{Binding Label}" Foreground="#FF888888"
-                                                   FontFamily="Consolas" FontSize="9"/>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
                     </StackPanel>
 
                     <TextBlock Text="⠿" Foreground="#FF444444" FontSize="11"

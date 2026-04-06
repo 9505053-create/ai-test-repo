@@ -100,13 +100,14 @@ public class InputStatusMonitor : INotifyPropertyChanged, IDisposable
                     IsFullShape = (convMode & IME_CMODE_FULLSHAPE) != 0;
                 }
 
-                // 輸入法名稱（從 Keyboard Layout）
+                // 輸入法名稱
                 uint tid = GetWindowThreadProcessId(hWnd, out _);
                 var hkl = GetKeyboardLayout(tid);
                 var sb = new System.Text.StringBuilder(256);
                 ImmGetDescription(hkl, sb, sb.Capacity);
                 var name = sb.ToString().Trim();
-                ImeName = name.Length > 0 ? ShortenImeName(name) : "";
+                // ImmGetDescription 回傳空白時，表示是純英文鍵盤
+                ImeName = ShortenImeName(name);
             }
         }
         catch (Exception ex)
@@ -117,14 +118,18 @@ public class InputStatusMonitor : INotifyPropertyChanged, IDisposable
 
     private static string ShortenImeName(string name)
     {
-        // 縮短常見輸入法名稱
-        if (name.Contains("微軟注音") || name.Contains("Microsoft Bopomofo")) return "微軟注音";
-        if (name.Contains("自然輸入法") || name.Contains("Atur")) return "自然";
-        if (name.Contains("新注音")) return "新注音";
-        if (name.Contains("倉頡")) return "倉頡";
-        if (name.Contains("速成")) return "速成";
-        if (name.Contains("注音")) return "注音";
-        if (name.Length > 8) return name[..8];
+        if (string.IsNullOrWhiteSpace(name)) return "英文";
+        // 常見台灣輸入法名稱對照
+        if (name.Contains("自然輸入法") || name.Contains("Atur") || name.Contains("ATUR")) return "自然輸入法";
+        if (name.Contains("微軟注音") || name.Contains("Microsoft Bopomofo"))               return "微軟注音";
+        if (name.Contains("新注音"))                                                          return "微軟新注音";
+        if (name.Contains("倉頡"))                                                            return "倉頡";
+        if (name.Contains("速成"))                                                            return "速成";
+        if (name.Contains("注音"))                                                            return "注音";
+        if (name.Contains("Zhuyin") || name.Contains("zhuyin"))                              return "注音";
+        // 英文鍵盤：ImmGetDescription 回空或 "United States"
+        if (name.Contains("United States") || name.Contains("English"))                     return "英文";
+        if (name.Length > 10) return name[..10];
         return name;
     }
 
