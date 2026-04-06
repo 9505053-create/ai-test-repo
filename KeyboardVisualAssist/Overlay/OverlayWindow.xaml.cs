@@ -135,6 +135,12 @@ public partial class OverlayWindow : Window
     private void OnClearHighlight(object sender, RoutedEventArgs e)
         => _viewModel.ClearHighlight();
 
+    private void OnIncreaseOpacity(object sender, RoutedEventArgs e)
+        => _viewModel.IncreaseOpacity();
+
+    private void OnDecreaseOpacity(object sender, RoutedEventArgs e)
+        => _viewModel.DecreaseOpacity();
+
     private void OnMinimize(object sender, RoutedEventArgs e)
     {
         if (_isMinimized)

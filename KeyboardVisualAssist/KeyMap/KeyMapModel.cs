@@ -11,6 +11,7 @@ public class KeyMapEntry
 
     public string StandardLabel { get; set; } = "";
     public string StandardShiftLabel { get; set; } = "";
+    public string TraditionalLabel { get; set; } = "";
     public string HsuLabel { get; set; } = "";
     public string HsuShiftLabel { get; set; } = "";
 
@@ -32,6 +33,7 @@ public class KeyDisplayInfo
 {
     public string KeyId { get; set; } = "";
     public string DisplayLabel { get; set; } = "";
+    public string TraditionalLabel { get; set; } = "";
     public string HsuLabel { get; set; } = "";
     public bool IsModifier { get; set; }
     public bool IsFunctionKey { get; set; }

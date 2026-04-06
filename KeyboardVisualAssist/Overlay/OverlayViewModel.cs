@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using KeyboardVisualAssist.Config;
 using KeyboardVisualAssist.InputCapture;
+using System.Windows.Media;
 using KeyboardVisualAssist.KeyMap;
 using KeyboardVisualAssist.Logging;
 
@@ -16,6 +17,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     private readonly KeyMapRepository _repository;
     private readonly KeyEventQueue _queue;
     private readonly Dictionary<string, DispatcherTimer> _fadeTimers = new();
+    public InputStatusMonitor StatusMonitor { get; } = new();
 
     public ObservableCollection<KeyCapViewModel> KeyCaps { get; } = new();
     private readonly Dictionary<string, KeyCapViewModel> _keyCapMap = new();
@@ -81,6 +83,18 @@ public partial class OverlayViewModel : INotifyPropertyChanged
 
     public bool ShowRecentKeys => _config.ShowRecentKeys;
 
+    private double _overlayOpacity;
+    public double OverlayOpacity
+    {
+        get => _overlayOpacity;
+        set
+        {
+            _overlayOpacity = Math.Clamp(value, 0.2, 1.0);
+            _config.OverlayOpacity = _overlayOpacity;
+            OnPropertyChanged();
+        }
+    }
+
     // ── 建構子 ───────────────────────────────────────────
 
     public OverlayViewModel(AppConfig config, KeyMapRepository repository)
@@ -93,13 +107,15 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _viewMode   = config.ViewMode;
         _layoutMode = config.LayoutMode;
         _labelMode  = config.LabelMode;
-        _scaleMode  = config.ScaleMode;
+        _scaleMode      = config.ScaleMode;
+        _overlayOpacity = config.OverlayOpacity;
 
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
 
         AppLogger.Info($"KeyCaps 建立完成，共 {KeyCaps.Count} 個鍵帽，ViewMode={_viewMode}");
         _queue = new KeyEventQueue(ProcessKeyEvent, intervalMs: 16);
+        StatusMonitor.Start();
     }
 
     // ── 建立 KeyCaps ─────────────────────────────────────
@@ -114,7 +130,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
                 KeyId           = entry.KeyId,
                 VkCode          = entry.VkCode,
                 PrimaryLabel    = entry.StandardLabel,
-                TraditionalLabel = "",          // 傳統注音：目前 keymap 無此欄，保留空
+                TraditionalLabel = entry.TraditionalLabel,
                 SecondaryLabel      = entry.HsuLabel,
                 SecondaryShiftLabel = entry.HsuShiftLabel,
                 IsModifier      = entry.IsModifier,
@@ -268,6 +284,20 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _config.LabelMode = LabelMode;
         ConfigService.Save(_config);
         AppLogger.Info($"切換 LabelMode: {LabelMode} -> Label顯示: {LabelModeLabel}");
+    }
+
+    public void IncreaseOpacity()
+    {
+        OverlayOpacity = Math.Min(1.0, _overlayOpacity + 0.1);
+        ConfigService.Save(_config);
+        AppLogger.Info($"透明度: {_overlayOpacity:F1}");
+    }
+
+    public void DecreaseOpacity()
+    {
+        OverlayOpacity = Math.Max(0.2, _overlayOpacity - 0.1);
+        ConfigService.Save(_config);
+        AppLogger.Info($"透明度: {_overlayOpacity:F1}");
     }
 
     public void CycleScaleMode()

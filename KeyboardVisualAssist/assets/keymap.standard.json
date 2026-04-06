@@ -6,7 +6,8 @@
     "StandardShiftLabel": "~",
     "Row": 0,
     "Col": 0.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_1",
@@ -15,7 +16,8 @@
     "StandardShiftLabel": "!",
     "Row": 0,
     "Col": 1.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄅ"
   },
   {
     "KeyId": "key_2",
@@ -24,7 +26,8 @@
     "StandardShiftLabel": "@",
     "Row": 0,
     "Col": 2.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄉ"
   },
   {
     "KeyId": "key_3",
@@ -33,7 +36,8 @@
     "StandardShiftLabel": "#",
     "Row": 0,
     "Col": 3.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ˇ"
   },
   {
     "KeyId": "key_4",
@@ -42,7 +46,8 @@
     "StandardShiftLabel": "$",
     "Row": 0,
     "Col": 4.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ˋ"
   },
   {
     "KeyId": "key_5",
@@ -51,7 +56,8 @@
     "StandardShiftLabel": "%",
     "Row": 0,
     "Col": 5.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄓ"
   },
   {
     "KeyId": "key_6",
@@ -60,7 +66,8 @@
     "StandardShiftLabel": "^",
     "Row": 0,
     "Col": 6.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ˊ"
   },
   {
     "KeyId": "key_7",
@@ -69,7 +76,8 @@
     "StandardShiftLabel": "&",
     "Row": 0,
     "Col": 7.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "˙"
   },
   {
     "KeyId": "key_8",
@@ -78,7 +86,8 @@
     "StandardShiftLabel": "*",
     "Row": 0,
     "Col": 8.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄚ"
   },
   {
     "KeyId": "key_9",
@@ -87,7 +96,8 @@
     "StandardShiftLabel": "(",
     "Row": 0,
     "Col": 9.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄞ"
   },
   {
     "KeyId": "key_0",
@@ -96,7 +106,8 @@
     "StandardShiftLabel": ")",
     "Row": 0,
     "Col": 10.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄢ"
   },
   {
     "KeyId": "key_minus",
@@ -105,7 +116,8 @@
     "StandardShiftLabel": "_",
     "Row": 0,
     "Col": 11.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄦ"
   },
   {
     "KeyId": "key_equal",
@@ -114,7 +126,8 @@
     "StandardShiftLabel": "+",
     "Row": 0,
     "Col": 12.0,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_back",
@@ -125,7 +138,8 @@
     "Col": 13.0,
     "WidthMultiplier": 2.0,
     "IsFunctionKey": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_tab",
@@ -136,7 +150,8 @@
     "Col": 0.0,
     "WidthMultiplier": 1.5,
     "IsFunctionKey": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_q",
@@ -145,7 +160,8 @@
     "StandardShiftLabel": "Q",
     "Row": 1,
     "Col": 1.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄆ"
   },
   {
     "KeyId": "key_w",
@@ -154,7 +170,8 @@
     "StandardShiftLabel": "W",
     "Row": 1,
     "Col": 2.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄇ"
   },
   {
     "KeyId": "key_e",
@@ -163,7 +180,8 @@
     "StandardShiftLabel": "E",
     "Row": 1,
     "Col": 3.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄈ"
   },
   {
     "KeyId": "key_r",
@@ -172,7 +190,8 @@
     "StandardShiftLabel": "R",
     "Row": 1,
     "Col": 4.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄖ"
   },
   {
     "KeyId": "key_t",
@@ -181,7 +200,8 @@
     "StandardShiftLabel": "T",
     "Row": 1,
     "Col": 5.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄗ"
   },
   {
     "KeyId": "key_y",
@@ -190,7 +210,8 @@
     "StandardShiftLabel": "Y",
     "Row": 1,
     "Col": 6.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄧ"
   },
   {
     "KeyId": "key_u",
@@ -199,7 +220,8 @@
     "StandardShiftLabel": "U",
     "Row": 1,
     "Col": 7.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄛ"
   },
   {
     "KeyId": "key_i",
@@ -208,7 +230,8 @@
     "StandardShiftLabel": "I",
     "Row": 1,
     "Col": 8.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄟ"
   },
   {
     "KeyId": "key_o",
@@ -217,7 +240,8 @@
     "StandardShiftLabel": "O",
     "Row": 1,
     "Col": 9.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄣ"
   },
   {
     "KeyId": "key_p",
@@ -226,7 +250,8 @@
     "StandardShiftLabel": "P",
     "Row": 1,
     "Col": 10.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄥ"
   },
   {
     "KeyId": "key_lbracket",
@@ -235,7 +260,8 @@
     "StandardShiftLabel": "{",
     "Row": 1,
     "Col": 11.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_rbracket",
@@ -244,7 +270,8 @@
     "StandardShiftLabel": "}",
     "Row": 1,
     "Col": 12.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_backslash",
@@ -253,7 +280,8 @@
     "StandardShiftLabel": "|",
     "Row": 1,
     "Col": 13.5,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_enter",
@@ -264,7 +292,8 @@
     "Col": 14.5,
     "WidthMultiplier": 1.5,
     "IsFunctionKey": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_caps",
@@ -275,7 +304,8 @@
     "Col": 0.0,
     "WidthMultiplier": 1.75,
     "IsModifier": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_a",
@@ -284,7 +314,8 @@
     "StandardShiftLabel": "A",
     "Row": 2,
     "Col": 1.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄉ"
   },
   {
     "KeyId": "key_s",
@@ -293,7 +324,8 @@
     "StandardShiftLabel": "S",
     "Row": 2,
     "Col": 2.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄊ"
   },
   {
     "KeyId": "key_d",
@@ -302,7 +334,8 @@
     "StandardShiftLabel": "D",
     "Row": 2,
     "Col": 3.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄋ"
   },
   {
     "KeyId": "key_f",
@@ -311,7 +344,8 @@
     "StandardShiftLabel": "F",
     "Row": 2,
     "Col": 4.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄌ"
   },
   {
     "KeyId": "key_g",
@@ -320,7 +354,8 @@
     "StandardShiftLabel": "G",
     "Row": 2,
     "Col": 5.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄍ"
   },
   {
     "KeyId": "key_h",
@@ -329,7 +364,8 @@
     "StandardShiftLabel": "H",
     "Row": 2,
     "Col": 6.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄎ"
   },
   {
     "KeyId": "key_j",
@@ -338,7 +374,8 @@
     "StandardShiftLabel": "J",
     "Row": 2,
     "Col": 7.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄏ"
   },
   {
     "KeyId": "key_k",
@@ -347,7 +384,8 @@
     "StandardShiftLabel": "K",
     "Row": 2,
     "Col": 8.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄐ"
   },
   {
     "KeyId": "key_l",
@@ -356,7 +394,8 @@
     "StandardShiftLabel": "L",
     "Row": 2,
     "Col": 9.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄑ"
   },
   {
     "KeyId": "key_semi",
@@ -365,7 +404,8 @@
     "StandardShiftLabel": ":",
     "Row": 2,
     "Col": 10.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄒ"
   },
   {
     "KeyId": "key_quote",
@@ -374,7 +414,8 @@
     "StandardShiftLabel": "\"",
     "Row": 2,
     "Col": 11.75,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_shift_l",
@@ -385,7 +426,8 @@
     "Col": 0.0,
     "WidthMultiplier": 2.25,
     "IsModifier": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_z",
@@ -394,7 +436,8 @@
     "StandardShiftLabel": "Z",
     "Row": 3,
     "Col": 2.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄔ"
   },
   {
     "KeyId": "key_x",
@@ -403,7 +446,8 @@
     "StandardShiftLabel": "X",
     "Row": 3,
     "Col": 3.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄕ"
   },
   {
     "KeyId": "key_c",
@@ -412,7 +456,8 @@
     "StandardShiftLabel": "C",
     "Row": 3,
     "Col": 4.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄘ"
   },
   {
     "KeyId": "key_v",
@@ -421,7 +466,8 @@
     "StandardShiftLabel": "V",
     "Row": 3,
     "Col": 5.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄙ"
   },
   {
     "KeyId": "key_b",
@@ -430,7 +476,8 @@
     "StandardShiftLabel": "B",
     "Row": 3,
     "Col": 6.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_n",
@@ -439,7 +486,8 @@
     "StandardShiftLabel": "N",
     "Row": 3,
     "Col": 7.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄡ"
   },
   {
     "KeyId": "key_m",
@@ -448,7 +496,8 @@
     "StandardShiftLabel": "M",
     "Row": 3,
     "Col": 8.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄩ"
   },
   {
     "KeyId": "key_comma",
@@ -457,7 +506,8 @@
     "StandardShiftLabel": "<",
     "Row": 3,
     "Col": 9.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄜ"
   },
   {
     "KeyId": "key_period",
@@ -466,7 +516,8 @@
     "StandardShiftLabel": ">",
     "Row": 3,
     "Col": 10.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "ㄝ"
   },
   {
     "KeyId": "key_slash",
@@ -475,7 +526,8 @@
     "StandardShiftLabel": "?",
     "Row": 3,
     "Col": 11.25,
-    "WidthMultiplier": 1.0
+    "WidthMultiplier": 1.0,
+    "TraditionalLabel": "˙"
   },
   {
     "KeyId": "key_shift_r",
@@ -486,7 +538,8 @@
     "Col": 12.25,
     "WidthMultiplier": 2.75,
     "IsModifier": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_ctrl_l",
@@ -497,7 +550,8 @@
     "Col": 0.0,
     "WidthMultiplier": 1.5,
     "IsModifier": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_win_l",
@@ -507,7 +561,8 @@
     "Row": 4,
     "Col": 1.5,
     "WidthMultiplier": 1.25,
-    "IsModifier": true
+    "IsModifier": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_alt_l",
@@ -517,7 +572,8 @@
     "Row": 4,
     "Col": 2.75,
     "WidthMultiplier": 1.25,
-    "IsModifier": true
+    "IsModifier": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_space",
@@ -527,7 +583,8 @@
     "Row": 4,
     "Col": 4.0,
     "WidthMultiplier": 6.25,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": "一聲"
   },
   {
     "KeyId": "key_alt_r",
@@ -537,7 +594,8 @@
     "Row": 4,
     "Col": 10.25,
     "WidthMultiplier": 1.25,
-    "IsModifier": true
+    "IsModifier": true,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_fn",
@@ -546,7 +604,8 @@
     "StandardShiftLabel": "",
     "Row": 4,
     "Col": 11.5,
-    "WidthMultiplier": 1.25
+    "WidthMultiplier": 1.25,
+    "TraditionalLabel": ""
   },
   {
     "KeyId": "key_ctrl_r",
@@ -557,6 +616,7 @@
     "Col": 12.75,
     "WidthMultiplier": 1.5,
     "IsModifier": true,
-    "IsWideKey": true
+    "IsWideKey": true,
+    "TraditionalLabel": ""
   }
 ]

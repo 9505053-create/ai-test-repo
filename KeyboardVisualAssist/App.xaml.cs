@@ -86,6 +86,7 @@ public partial class App : Application
     {
         _hook?.Uninstall();
         _monitor?.Stop();
+        _viewModel?.StatusMonitor.Stop();
         _tray?.Dispose();
         AppLogger.Info("KeyboardVisualAssist 關閉");
         base.OnExit(e);

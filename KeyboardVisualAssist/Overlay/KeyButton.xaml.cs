@@ -45,16 +45,15 @@ public partial class KeyButton : UserControl
                                  or nameof(KeyCapViewModel.TraditionalLabel))
                 UpdateCenterPhonetic(vm);
         };
+        UpdateCenterPhonetic(vm);
     }
 
     private void UpdateCenterPhonetic(KeyCapViewModel vm)
     {
-        // CenterPhonetic 的 Text 依 LabelMode 動態決定
-        // 因為 LabelMode 在 Window 的 DataContext，這裡只設好備用值
-        // 實際 Visibility 由 XAML Converter 控制
-        // Text 設為 Traditional 優先，若空則用 Hsu
-        CenterPhoneticText.Text = !string.IsNullOrEmpty(vm.TraditionalLabel)
-            ? vm.TraditionalLabel
-            : vm.SecondaryLabel;
+        // CenterPhoneticText 在 TraditionalOnly/HsuOnly 模式下為大字中央顯示
+        // 實際顯示內容取決於當前 LabelMode，由 XAML DataTrigger 或 code-behind 切換
+        // 這裡設置兩個 TextBlock 分別對應兩種模式
+        TraditionalCenterText.Text = vm.TraditionalLabel;
+        HsuCenterText.Text = vm.SecondaryLabel;
     }
 }

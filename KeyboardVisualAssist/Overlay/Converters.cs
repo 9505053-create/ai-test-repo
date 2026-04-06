@@ -106,7 +106,8 @@ public class StringToVisibilityConverter : IValueConverter
 /// <summary>LabelMode + 標籤種類 → Visibility（控制每層標籤顯示）</summary>
 public class LabelModeToVisibilityConverter : IMultiValueConverter
 {
-    /// values[0]=LabelMode(string), values[1]=LabelType(string: "Primary"/"Traditional"/"Hsu"/"CenterPhonetic")
+    /// values[0]=LabelMode(string), values[1]=LabelType
+    /// LabelType: "Primary" / "Traditional" / "Hsu" / "CenterTraditional" / "CenterHsu"
     public object Convert(object[] values, Type t, object p, CultureInfo c)
     {
         var mode      = values[0] as string ?? "All";
@@ -114,13 +115,43 @@ public class LabelModeToVisibilityConverter : IMultiValueConverter
         bool visible = mode switch
         {
             "EnglishOnly"     => labelType == "Primary",
-            "TraditionalOnly" => labelType is "CenterPhonetic",
-            "HsuOnly"         => labelType is "CenterPhonetic",
+            "TraditionalOnly" => labelType == "CenterTraditional",
+            "HsuOnly"         => labelType == "CenterHsu",
             "EnglishAndHsu"   => labelType is "Primary" or "Hsu",
-            // "All": 顯示 Primary + Hsu(左上紅) + Traditional(右上藍)，不顯示 CenterPhonetic
-            _                 => labelType != "CenterPhonetic"
+            // "All"：英文(中央) + 傳統注音(左上藍) + 許氏(左上紅, 右上橙)
+            _                 => labelType is "Primary" or "Traditional" or "Hsu"
         };
         return visible ? Visibility.Visible : Visibility.Collapsed;
     }
     public object[] ConvertBack(object value, Type[] t, object p, CultureInfo c) => throw new NotImplementedException();
+}
+
+/// <summary>bool → 中文字串（中/英 或 全/半）</summary>
+public class BoolToStringConverter : IValueConverter
+{
+    public static readonly BoolToStringConverter ChineseEnglish = new() { TrueValue = "中", FalseValue = "英" };
+    public static readonly BoolToStringConverter FullHalf       = new() { TrueValue = "全", FalseValue = "半" };
+
+    public string TrueValue  { get; set; } = "是";
+    public string FalseValue { get; set; } = "否";
+
+    public object Convert(object value, Type t, object p, CultureInfo c)
+        => value is true ? TrueValue : FalseValue;
+    public object ConvertBack(object value, Type t, object p, CultureInfo c) => throw new NotImplementedException();
+}
+
+/// <summary>bool → 前景色（亮/暗）</summary>
+public class BoolToColorConverter : IValueConverter
+{
+    private static readonly System.Windows.Media.SolidColorBrush ActiveBrush =
+        new(System.Windows.Media.Color.FromRgb(0x00, 0xCC, 0x66));
+    private static readonly System.Windows.Media.SolidColorBrush InactiveBrush =
+        new(System.Windows.Media.Color.FromRgb(0x44, 0x44, 0x44));
+
+    public static readonly BoolToColorConverter CapsLockColor = new();
+    public static readonly BoolToColorConverter NumLockColor  = new();
+
+    public object Convert(object value, Type t, object p, CultureInfo c)
+        => value is true ? ActiveBrush : InactiveBrush;
+    public object ConvertBack(object value, Type t, object p, CultureInfo c) => throw new NotImplementedException();
 }
