@@ -4,34 +4,34 @@
         Title="KVA Clipboard"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         Topmost="True" ShowInTaskbar="False" ResizeMode="NoResize"
-        SizeToContent="Height" Width="420">
+        SizeToContent="Height" Width="380">
 
-    <Border Background="#E0101010" CornerRadius="6" BorderBrush="#FF333333" BorderThickness="1" Padding="8,5">
+    <Border Background="#EE0D0D0D" CornerRadius="5" BorderBrush="#FF2A2A2A" BorderThickness="1" Padding="8,5">
         <DockPanel>
             <!-- 標題列 -->
-            <DockPanel DockPanel.Dock="Top" Height="22" Margin="0,0,0,4"
+            <DockPanel DockPanel.Dock="Top" Height="20" Margin="0,0,0,4"
                        MouseLeftButtonDown="OnDragStart">
-                <TextBlock Text="📋 剪貼簿" Foreground="#FF888888" FontSize="10"
-                           VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-                    <!-- 自動更新指示燈 -->
-                    <Ellipse x:Name="AutoDot" Width="7" Height="7" Margin="0,0,6,0"
-                             Fill="#FF44BB44" ToolTip="自動監控中"/>
-                    <TextBlock x:Name="UpdateTimeText" FontSize="9" Foreground="#FF555555"
-                               VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    <Button x:Name="CloseBtn" Content="✕" Click="OnClose"
-                            Background="Transparent" Foreground="#FF666666"
-                            BorderThickness="0" FontSize="11" Cursor="Hand" Padding="2,0"/>
-                </StackPanel>
+                <TextBlock Text="📋 剪貼簿" Foreground="#FF666666" FontSize="9"
+                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <!-- 自動更新指示燈 -->
+                <Ellipse x:Name="AutoDot" Width="6" Height="6" Margin="0,0,5,0"
+                         VerticalAlignment="Center"
+                         Fill="#FF44BB44" ToolTip="自動監控中（每0.5秒）"/>
+                <TextBlock x:Name="UpdateTimeText" FontSize="8" Foreground="#FF555555"
+                           VerticalAlignment="Center" Margin="0,0,0,0"/>
+                <Button x:Name="CloseBtn" Content="✕" Click="OnClose"
+                        HorizontalAlignment="Right"
+                        Background="Transparent" Foreground="#FF555555"
+                        BorderThickness="0" FontSize="10" Cursor="Hand" Padding="4,0"
+                        DockPanel.Dock="Right"/>
             </DockPanel>
 
-            <!-- 剪貼簿內容 -->
+            <!-- 剪貼簿內容（最多3行）-->
             <TextBlock x:Name="ContentText"
-                       Foreground="#FFEEEEEE"
-                       FontSize="11" FontFamily="Microsoft JhengHei UI, Consolas"
+                       Foreground="#FFDDDDDD"
+                       FontSize="10" FontFamily="Microsoft JhengHei UI, Consolas"
                        TextWrapping="Wrap"
-                       MaxHeight="80"
+                       MaxHeight="60"
                        TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Top"/>
         </DockPanel>
