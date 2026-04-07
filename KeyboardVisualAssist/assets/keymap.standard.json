@@ -176,7 +176,7 @@
     "KeyId": "key_3",
     "VirtualKey": "0x33",
     "StandardLabel": "3",
-    "StandardShiftLabel": "#",
+    "StandardShiftLabel": "三聲",
     "Row": 0,
     "Col": 3.0,
     "WidthMultiplier": 1.0,
@@ -186,11 +186,11 @@
     "KeyId": "key_4",
     "VirtualKey": "0x34",
     "StandardLabel": "4",
-    "StandardShiftLabel": "$",
+    "StandardShiftLabel": "四聲",
     "Row": 0,
     "Col": 4.0,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ˋ"
+    "TraditionalLabel": "˙"
   },
   {
     "KeyId": "key_5",
@@ -206,7 +206,7 @@
     "KeyId": "key_6",
     "VirtualKey": "0x36",
     "StandardLabel": "6",
-    "StandardShiftLabel": "^",
+    "StandardShiftLabel": "二聲",
     "Row": 0,
     "Col": 6.0,
     "WidthMultiplier": 1.0,
@@ -216,7 +216,7 @@
     "KeyId": "key_7",
     "VirtualKey": "0x37",
     "StandardLabel": "7",
-    "StandardShiftLabel": "&",
+    "StandardShiftLabel": "輕聲",
     "Row": 0,
     "Col": 7.0,
     "WidthMultiplier": 1.0,
@@ -304,7 +304,9 @@
     "Row": 1,
     "Col": 1.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄆ"
+    "TraditionalLabel": "ㄆ",
+    "HsuLabel": "切",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_w",
@@ -314,7 +316,9 @@
     "Row": 1,
     "Col": 2.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄇ"
+    "TraditionalLabel": "ㄊ",
+    "HsuLabel": "ㄠ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_e",
@@ -324,7 +328,9 @@
     "Row": 1,
     "Col": 3.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄈ"
+    "TraditionalLabel": "ㄍ",
+    "HsuLabel": "ㄧ",
+    "HsuShiftLabel": "ㄝ"
   },
   {
     "KeyId": "key_r",
@@ -334,7 +340,9 @@
     "Row": 1,
     "Col": 4.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄖ"
+    "TraditionalLabel": "ㄐ",
+    "HsuLabel": "ㄖ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_t",
@@ -344,7 +352,9 @@
     "Row": 1,
     "Col": 5.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄗ"
+    "TraditionalLabel": "ㄔ",
+    "HsuLabel": "ㄊ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_y",
@@ -354,7 +364,9 @@
     "Row": 1,
     "Col": 6.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄧ"
+    "TraditionalLabel": "ㄗ",
+    "HsuLabel": "ㄚ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_u",
@@ -364,7 +376,9 @@
     "Row": 1,
     "Col": 7.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄛ"
+    "TraditionalLabel": "ㄧ",
+    "HsuLabel": "ㄩ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_i",
@@ -374,7 +388,9 @@
     "Row": 1,
     "Col": 8.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄟ"
+    "TraditionalLabel": "ㄛ",
+    "HsuLabel": "ㄞ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_o",
@@ -384,7 +400,9 @@
     "Row": 1,
     "Col": 9.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄣ"
+    "TraditionalLabel": "ㄟ",
+    "HsuLabel": "ㄡ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_p",
@@ -394,7 +412,9 @@
     "Row": 1,
     "Col": 10.5,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄥ"
+    "TraditionalLabel": "ㄣ",
+    "HsuLabel": "ㄆ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_lbracket",
@@ -458,7 +478,9 @@
     "Row": 2,
     "Col": 1.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄉ"
+    "TraditionalLabel": "ㄇ",
+    "HsuLabel": "ㄘ",
+    "HsuShiftLabel": "ㄟ"
   },
   {
     "KeyId": "key_s",
@@ -468,7 +490,9 @@
     "Row": 2,
     "Col": 2.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄊ"
+    "TraditionalLabel": "ㄋ",
+    "HsuLabel": "ㄙ",
+    "HsuShiftLabel": "輕聲"
   },
   {
     "KeyId": "key_d",
@@ -478,7 +502,9 @@
     "Row": 2,
     "Col": 3.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄋ"
+    "TraditionalLabel": "ㄎ",
+    "HsuLabel": "ㄉ",
+    "HsuShiftLabel": "ˊ"
   },
   {
     "KeyId": "key_f",
@@ -488,7 +514,9 @@
     "Row": 2,
     "Col": 4.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄌ"
+    "TraditionalLabel": "ㄑ",
+    "HsuLabel": "ㄈ",
+    "HsuShiftLabel": "ˇ"
   },
   {
     "KeyId": "key_g",
@@ -498,7 +526,9 @@
     "Row": 2,
     "Col": 5.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄍ"
+    "TraditionalLabel": "ㄕ",
+    "HsuLabel": "ㄍ",
+    "HsuShiftLabel": "ㄜ"
   },
   {
     "KeyId": "key_h",
@@ -508,7 +538,9 @@
     "Row": 2,
     "Col": 6.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄎ"
+    "TraditionalLabel": "ㄘ",
+    "HsuLabel": "ㄏ",
+    "HsuShiftLabel": "ㄛ"
   },
   {
     "KeyId": "key_j",
@@ -518,7 +550,9 @@
     "Row": 2,
     "Col": 7.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄏ"
+    "TraditionalLabel": "ㄨ",
+    "HsuLabel": "ㄐ",
+    "HsuShiftLabel": "ㄓ四聲"
   },
   {
     "KeyId": "key_k",
@@ -528,7 +562,9 @@
     "Row": 2,
     "Col": 8.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄐ"
+    "TraditionalLabel": "ㄜ",
+    "HsuLabel": "ㄎ",
+    "HsuShiftLabel": "ㄤ"
   },
   {
     "KeyId": "key_l",
@@ -538,7 +574,9 @@
     "Row": 2,
     "Col": 9.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄑ"
+    "TraditionalLabel": "ㄠ",
+    "HsuLabel": "ㄌ",
+    "HsuShiftLabel": "ㄥㄦ"
   },
   {
     "KeyId": "key_semi",
@@ -548,7 +586,9 @@
     "Row": 2,
     "Col": 10.75,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄒ"
+    "TraditionalLabel": "ㄤ",
+    "HsuLabel": ";",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_quote",
@@ -580,7 +620,9 @@
     "Row": 3,
     "Col": 2.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄔ"
+    "TraditionalLabel": "ㄈ",
+    "HsuLabel": "ㄗ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_x",
@@ -590,7 +632,9 @@
     "Row": 3,
     "Col": 3.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄕ"
+    "TraditionalLabel": "ㄌ",
+    "HsuLabel": "ㄨ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_c",
@@ -600,7 +644,9 @@
     "Row": 3,
     "Col": 4.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄘ"
+    "TraditionalLabel": "ㄏ",
+    "HsuLabel": "ㄒ",
+    "HsuShiftLabel": "ㄕ"
   },
   {
     "KeyId": "key_v",
@@ -610,7 +656,9 @@
     "Row": 3,
     "Col": 5.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄙ"
+    "TraditionalLabel": "ㄒ",
+    "HsuLabel": "ㄑ",
+    "HsuShiftLabel": "ㄔ"
   },
   {
     "KeyId": "key_b",
@@ -620,7 +668,9 @@
     "Row": 3,
     "Col": 6.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": ""
+    "TraditionalLabel": "ㄖ",
+    "HsuLabel": "ㄅ",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_n",
@@ -630,7 +680,9 @@
     "Row": 3,
     "Col": 7.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄡ"
+    "TraditionalLabel": "ㄙ",
+    "HsuLabel": "ㄋ",
+    "HsuShiftLabel": "ㄣ"
   },
   {
     "KeyId": "key_m",
@@ -640,7 +692,9 @@
     "Row": 3,
     "Col": 8.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄩ"
+    "TraditionalLabel": "ㄩ",
+    "HsuLabel": "ㄇ",
+    "HsuShiftLabel": "ㄢ"
   },
   {
     "KeyId": "key_comma",
@@ -650,7 +704,9 @@
     "Row": 3,
     "Col": 9.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄜ"
+    "TraditionalLabel": "ㄝ",
+    "HsuLabel": ",",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_period",
@@ -660,7 +716,9 @@
     "Row": 3,
     "Col": 10.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "ㄝ"
+    "TraditionalLabel": "ㄡ",
+    "HsuLabel": ".",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_slash",
@@ -670,7 +728,9 @@
     "Row": 3,
     "Col": 11.25,
     "WidthMultiplier": 1.0,
-    "TraditionalLabel": "˙"
+    "TraditionalLabel": "ㄥ",
+    "HsuLabel": "/",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_shift_r",
@@ -727,7 +787,9 @@
     "Col": 4.0,
     "WidthMultiplier": 6.25,
     "IsWideKey": true,
-    "TraditionalLabel": "一聲"
+    "TraditionalLabel": "空格",
+    "HsuLabel": "一",
+    "HsuShiftLabel": ""
   },
   {
     "KeyId": "key_alt_r",

@@ -1,54 +1,290 @@
 [
-  {"KeyId": "key_grave",    "VirtualKey": "0xC0", "HsuLabel": "",    "HsuShiftLabel": ""},
-  {"KeyId": "key_1",        "VirtualKey": "0x31", "HsuLabel": "1",   "HsuShiftLabel": "!"},
-  {"KeyId": "key_2",        "VirtualKey": "0x32", "HsuLabel": "2",   "HsuShiftLabel": "@"},
-  {"KeyId": "key_3",        "VirtualKey": "0x33", "HsuLabel": "3",   "HsuShiftLabel": "#"},
-  {"KeyId": "key_4",        "VirtualKey": "0x34", "HsuLabel": "4",   "HsuShiftLabel": "$"},
-  {"KeyId": "key_5",        "VirtualKey": "0x35", "HsuLabel": "5",   "HsuShiftLabel": "%"},
-  {"KeyId": "key_6",        "VirtualKey": "0x36", "HsuLabel": "6",   "HsuShiftLabel": "^"},
-  {"KeyId": "key_7",        "VirtualKey": "0x37", "HsuLabel": "7",   "HsuShiftLabel": "&"},
-  {"KeyId": "key_8",        "VirtualKey": "0x38", "HsuLabel": "8",   "HsuShiftLabel": "*"},
-  {"KeyId": "key_9",        "VirtualKey": "0x39", "HsuLabel": "9",   "HsuShiftLabel": "("},
-  {"KeyId": "key_0",        "VirtualKey": "0x30", "HsuLabel": "0",   "HsuShiftLabel": ")"},
-  {"KeyId": "key_minus",    "VirtualKey": "0xBD", "HsuLabel": "-",   "HsuShiftLabel": "_"},
-  {"KeyId": "key_equal",    "VirtualKey": "0xBB", "HsuLabel": "=",   "HsuShiftLabel": "+"},
-
-  {"KeyId": "key_q",        "VirtualKey": "0x51", "HsuLabel": "",    "HsuShiftLabel": ""},
-  {"KeyId": "key_w",        "VirtualKey": "0x57", "HsuLabel": "ㄨ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_e",        "VirtualKey": "0x45", "HsuLabel": "ㄝ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_r",        "VirtualKey": "0x52", "HsuLabel": "ㄖ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_t",        "VirtualKey": "0x54", "HsuLabel": "ㄊ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_y",        "VirtualKey": "0x59", "HsuLabel": "ㄧ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_u",        "VirtualKey": "0x55", "HsuLabel": "ㄩ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_i",        "VirtualKey": "0x49", "HsuLabel": "ㄞ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_o",        "VirtualKey": "0x4F", "HsuLabel": "ㄢ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_p",        "VirtualKey": "0x50", "HsuLabel": "ㄆ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_lbracket", "VirtualKey": "0xDB", "HsuLabel": "[",   "HsuShiftLabel": "{"},
-  {"KeyId": "key_rbracket", "VirtualKey": "0xDD", "HsuLabel": "]",   "HsuShiftLabel": "}"},
-  {"KeyId": "key_backslash","VirtualKey": "0xDC", "HsuLabel": "\\",  "HsuShiftLabel": "|"},
-
-  {"KeyId": "key_a",        "VirtualKey": "0x41", "HsuLabel": "ㄘ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_s",        "VirtualKey": "0x53", "HsuLabel": "˙",   "HsuShiftLabel": ""},
-  {"KeyId": "key_d",        "VirtualKey": "0x44", "HsuLabel": "ˊ",   "HsuShiftLabel": ""},
-  {"KeyId": "key_f",        "VirtualKey": "0x46", "HsuLabel": "ˇ",   "HsuShiftLabel": ""},
-  {"KeyId": "key_g",        "VirtualKey": "0x47", "HsuLabel": "ㄍ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_h",        "VirtualKey": "0x48", "HsuLabel": "ㄏ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_j",        "VirtualKey": "0x4A", "HsuLabel": "ˋ",   "HsuShiftLabel": ""},
-  {"KeyId": "key_k",        "VirtualKey": "0x4B", "HsuLabel": "ㄎ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_l",        "VirtualKey": "0x4C", "HsuLabel": "ㄌ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_semi",     "VirtualKey": "0xBA", "HsuLabel": ";",   "HsuShiftLabel": ":"},
-  {"KeyId": "key_quote",    "VirtualKey": "0xDE", "HsuLabel": "'",   "HsuShiftLabel": "\""},
-
-  {"KeyId": "key_z",        "VirtualKey": "0x5A", "HsuLabel": "ㄗ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_x",        "VirtualKey": "0x58", "HsuLabel": "ㄘ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_c",        "VirtualKey": "0x43", "HsuLabel": "ㄙ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_v",        "VirtualKey": "0x56", "HsuLabel": "ㄑ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_b",        "VirtualKey": "0x42", "HsuLabel": "ㄅ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_n",        "VirtualKey": "0x4E", "HsuLabel": "ㄋ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_m",        "VirtualKey": "0x4D", "HsuLabel": "ㄇ",  "HsuShiftLabel": ""},
-  {"KeyId": "key_comma",    "VirtualKey": "0xBC", "HsuLabel": "ㄝ",  "HsuShiftLabel": ","},
-  {"KeyId": "key_period",   "VirtualKey": "0xBE", "HsuLabel": "ㄡ",  "HsuShiftLabel": "."},
-  {"KeyId": "key_slash",    "VirtualKey": "0xBF", "HsuLabel": "ㄥ",  "HsuShiftLabel": "/"},
-
-  {"KeyId": "key_space",    "VirtualKey": "0x20", "HsuLabel": "一聲", "HsuShiftLabel": ""}
+  {
+    "KeyId": "key_grave",
+    "VirtualKey": "0xC0",
+    "HsuLabel": "",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_1",
+    "VirtualKey": "0x31",
+    "HsuLabel": "1",
+    "HsuShiftLabel": "!"
+  },
+  {
+    "KeyId": "key_2",
+    "VirtualKey": "0x32",
+    "HsuLabel": "2",
+    "HsuShiftLabel": "@"
+  },
+  {
+    "KeyId": "key_3",
+    "VirtualKey": "0x33",
+    "HsuLabel": "3",
+    "HsuShiftLabel": "#"
+  },
+  {
+    "KeyId": "key_4",
+    "VirtualKey": "0x34",
+    "HsuLabel": "4",
+    "HsuShiftLabel": "$"
+  },
+  {
+    "KeyId": "key_5",
+    "VirtualKey": "0x35",
+    "HsuLabel": "5",
+    "HsuShiftLabel": "%"
+  },
+  {
+    "KeyId": "key_6",
+    "VirtualKey": "0x36",
+    "HsuLabel": "6",
+    "HsuShiftLabel": "^"
+  },
+  {
+    "KeyId": "key_7",
+    "VirtualKey": "0x37",
+    "HsuLabel": "7",
+    "HsuShiftLabel": "&"
+  },
+  {
+    "KeyId": "key_8",
+    "VirtualKey": "0x38",
+    "HsuLabel": "8",
+    "HsuShiftLabel": "*"
+  },
+  {
+    "KeyId": "key_9",
+    "VirtualKey": "0x39",
+    "HsuLabel": "9",
+    "HsuShiftLabel": "("
+  },
+  {
+    "KeyId": "key_0",
+    "VirtualKey": "0x30",
+    "HsuLabel": "0",
+    "HsuShiftLabel": ")"
+  },
+  {
+    "KeyId": "key_minus",
+    "VirtualKey": "0xBD",
+    "HsuLabel": "-",
+    "HsuShiftLabel": "_"
+  },
+  {
+    "KeyId": "key_equal",
+    "VirtualKey": "0xBB",
+    "HsuLabel": "=",
+    "HsuShiftLabel": "+"
+  },
+  {
+    "KeyId": "key_q",
+    "VirtualKey": "0x51",
+    "HsuLabel": "切",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_w",
+    "VirtualKey": "0x57",
+    "HsuLabel": "ㄠ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_e",
+    "VirtualKey": "0x45",
+    "HsuLabel": "ㄧ",
+    "HsuShiftLabel": "ㄝ"
+  },
+  {
+    "KeyId": "key_r",
+    "VirtualKey": "0x52",
+    "HsuLabel": "ㄖ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_t",
+    "VirtualKey": "0x54",
+    "HsuLabel": "ㄊ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_y",
+    "VirtualKey": "0x59",
+    "HsuLabel": "ㄚ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_u",
+    "VirtualKey": "0x55",
+    "HsuLabel": "ㄩ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_i",
+    "VirtualKey": "0x49",
+    "HsuLabel": "ㄞ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_o",
+    "VirtualKey": "0x4F",
+    "HsuLabel": "ㄡ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_p",
+    "VirtualKey": "0x50",
+    "HsuLabel": "ㄆ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_lbracket",
+    "VirtualKey": "0xDB",
+    "HsuLabel": "[",
+    "HsuShiftLabel": "{"
+  },
+  {
+    "KeyId": "key_rbracket",
+    "VirtualKey": "0xDD",
+    "HsuLabel": "]",
+    "HsuShiftLabel": "}"
+  },
+  {
+    "KeyId": "key_backslash",
+    "VirtualKey": "0xDC",
+    "HsuLabel": "\\",
+    "HsuShiftLabel": "|"
+  },
+  {
+    "KeyId": "key_a",
+    "VirtualKey": "0x41",
+    "HsuLabel": "ㄘ",
+    "HsuShiftLabel": "ㄟ"
+  },
+  {
+    "KeyId": "key_s",
+    "VirtualKey": "0x53",
+    "HsuLabel": "ㄙ",
+    "HsuShiftLabel": "輕聲"
+  },
+  {
+    "KeyId": "key_d",
+    "VirtualKey": "0x44",
+    "HsuLabel": "ㄉ",
+    "HsuShiftLabel": "ˊ"
+  },
+  {
+    "KeyId": "key_f",
+    "VirtualKey": "0x46",
+    "HsuLabel": "ㄈ",
+    "HsuShiftLabel": "ˇ"
+  },
+  {
+    "KeyId": "key_g",
+    "VirtualKey": "0x47",
+    "HsuLabel": "ㄍ",
+    "HsuShiftLabel": "ㄜ"
+  },
+  {
+    "KeyId": "key_h",
+    "VirtualKey": "0x48",
+    "HsuLabel": "ㄏ",
+    "HsuShiftLabel": "ㄛ"
+  },
+  {
+    "KeyId": "key_j",
+    "VirtualKey": "0x4A",
+    "HsuLabel": "ㄐ",
+    "HsuShiftLabel": "ㄓ四聲"
+  },
+  {
+    "KeyId": "key_k",
+    "VirtualKey": "0x4B",
+    "HsuLabel": "ㄎ",
+    "HsuShiftLabel": "ㄤ"
+  },
+  {
+    "KeyId": "key_l",
+    "VirtualKey": "0x4C",
+    "HsuLabel": "ㄌ",
+    "HsuShiftLabel": "ㄥㄦ"
+  },
+  {
+    "KeyId": "key_semi",
+    "VirtualKey": "0xBA",
+    "HsuLabel": ";",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_quote",
+    "VirtualKey": "0xDE",
+    "HsuLabel": "'",
+    "HsuShiftLabel": "\""
+  },
+  {
+    "KeyId": "key_z",
+    "VirtualKey": "0x5A",
+    "HsuLabel": "ㄗ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_x",
+    "VirtualKey": "0x58",
+    "HsuLabel": "ㄨ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_c",
+    "VirtualKey": "0x43",
+    "HsuLabel": "ㄒ",
+    "HsuShiftLabel": "ㄕ"
+  },
+  {
+    "KeyId": "key_v",
+    "VirtualKey": "0x56",
+    "HsuLabel": "ㄑ",
+    "HsuShiftLabel": "ㄔ"
+  },
+  {
+    "KeyId": "key_b",
+    "VirtualKey": "0x42",
+    "HsuLabel": "ㄅ",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_n",
+    "VirtualKey": "0x4E",
+    "HsuLabel": "ㄋ",
+    "HsuShiftLabel": "ㄣ"
+  },
+  {
+    "KeyId": "key_m",
+    "VirtualKey": "0x4D",
+    "HsuLabel": "ㄇ",
+    "HsuShiftLabel": "ㄢ"
+  },
+  {
+    "KeyId": "key_comma",
+    "VirtualKey": "0xBC",
+    "HsuLabel": ",",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_period",
+    "VirtualKey": "0xBE",
+    "HsuLabel": ".",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_slash",
+    "VirtualKey": "0xBF",
+    "HsuLabel": "/",
+    "HsuShiftLabel": ""
+  },
+  {
+    "KeyId": "key_space",
+    "VirtualKey": "0x20",
+    "HsuLabel": "一",
+    "HsuShiftLabel": ""
+  }
 ]
