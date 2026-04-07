@@ -75,7 +75,6 @@ public class RowToYConverter : IValueConverter
     }
     public object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotImplementedException();
 }
-}
 
 /// <summary>Col 浮點偏移 → Canvas X 座標（基礎單位 38px）</summary>
 [ValueConversion(typeof(double), typeof(double))]
