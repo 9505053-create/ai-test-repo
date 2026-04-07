@@ -147,8 +147,9 @@ public partial class ClipboardWindow : Window
         Hide();
     }
 
-    protected override void OnClosed(System.ComponentModel.CancelEventArgs e)
+    protected override void OnClosed(EventArgs e)
     {
         _pollTimer.Stop();
+        base.OnClosed(e);
     }
 }
