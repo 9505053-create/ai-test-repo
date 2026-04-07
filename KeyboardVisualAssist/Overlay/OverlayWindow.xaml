@@ -204,18 +204,47 @@
                 <!-- 輔助線 Overlay（IsHitTestVisible=False 不攔截滑鼠）-->
                 <Canvas Width="614" Height="233" IsHitTestVisible="False"
                         Visibility="{Binding ShowGuideLines, Converter={StaticResource BoolToVisConverter}}">
-                    <!-- 左手分界線（亮紅粗線）-->
-                    <Line X1="225" Y1="2"   X2="195" Y2="40"  Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="195" Y1="40"  X2="210" Y2="78"  Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="210" Y1="78"  X2="186" Y2="116" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="186" Y1="116" X2="210" Y2="154" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="210" Y1="154" X2="190" Y2="192" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <!-- 右手分界線（亮藍粗線）-->
-                    <Line X1="304" Y1="2"   X2="285" Y2="40"  Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="285" Y1="40"  X2="300" Y2="78"  Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="300" Y1="78"  X2="284" Y2="116" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="284" Y1="116" X2="305" Y2="154" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                    <Line X1="305" Y1="154" X2="285" Y2="192" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+
+                    <!-- ══ 左手4條紅線（手指分界，鋸齒形）══ -->
+
+                    <!-- 紅線1：小指|無名指（數字1右|Q右|A右|Z右）-->
+                    <Polyline Stroke="#FFFF2222" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="76,40  76,78  95,78  95,116  104,116  104,154  123,154  123,192"/>
+
+                    <!-- 紅線2：無名指|中指（數字2右|W右|S右|X右）-->
+                    <Polyline Stroke="#FFFF2222" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="114,40  114,78  133,78  133,116  141,116  141,154  161,154  161,192"/>
+
+                    <!-- 紅線3：中指|食指（數字3右|E右|D右|C右）-->
+                    <Polyline Stroke="#FFFF2222" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="152,40  152,78  171,78  171,116  179,116  179,154  199,154  199,192"/>
+
+                    <!-- 紅線4：食指左|食指右（數字5右|T右|G右|B右）-->
+                    <Polyline Stroke="#FFFF2222" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="228,40  228,78  247,78  247,116  255,116  255,154  275,154  275,192"/>
+
+                    <!-- ══ 右手5條藍線（手指分界，鋸齒形）══ -->
+
+                    <!-- 藍線1：食指左|食指右（數字6右|Y右|H右|N右）-->
+                    <Polyline Stroke="#FF2288FF" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="266,40  266,78  285,78  285,116  294,116  294,154  313,154  313,192"/>
+
+                    <!-- 藍線2：食指|中指（數字7右|U右|J右|M右）-->
+                    <Polyline Stroke="#FF2288FF" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="304,40  304,78  323,78  323,116  332,116  332,154  351,154  351,192"/>
+
+                    <!-- 藍線3：中指|無名指（數字8右|I右|K右|,右）-->
+                    <Polyline Stroke="#FF2288FF" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="342,40  342,78  361,78  361,116  370,116  370,154  389,154  389,192"/>
+
+                    <!-- 藍線4：無名指|小指（數字9右|O右|L右|.右）-->
+                    <Polyline Stroke="#FF2288FF" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="380,40  380,78  399,78  399,116  408,116  408,154  427,154  427,192"/>
+
+                    <!-- 藍線5：小指內|外（數字0右|P右|;右|/右）-->
+                    <Polyline Stroke="#FF2288FF" StrokeThickness="2.5" StrokeLineJoin="Round"
+                              Points="418,40  418,78  437,78  437,116  446,116  446,154  465,154  465,192"/>
+
                 </Canvas>
             </Grid>
 
