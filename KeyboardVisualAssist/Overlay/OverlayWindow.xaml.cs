@@ -26,6 +26,7 @@ public partial class OverlayWindow : Window
 
     private readonly OverlayViewModel _viewModel;
     private bool _isMinimized = false;
+    private ClipboardWindow? _clipboardWindow;
 
     public OverlayWindow(OverlayViewModel viewModel)
     {
@@ -139,12 +140,20 @@ public partial class OverlayWindow : Window
         => _viewModel.ToggleGuideLines();
 
     private void OnToggleClipboard(object sender, RoutedEventArgs e)
-        => _viewModel.ToggleClipboard();
-
-    private void OnClipboardRefresh(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        _viewModel.RefreshClipboard();
-        e.Handled = true;
+        if (_clipboardWindow == null)
+            _clipboardWindow = new ClipboardWindow(this);
+
+        if (_viewModel.ShowClipboard)
+        {
+            _viewModel.ShowClipboard = false;
+            _clipboardWindow.Hide();
+        }
+        else
+        {
+            _viewModel.ShowClipboard = true;
+            _clipboardWindow.Show();
+        }
     }
 
     private void OnCycleLabelMode(object sender, RoutedEventArgs e)
@@ -206,12 +215,14 @@ public partial class OverlayWindow : Window
 
     private void OnClose(object sender, RoutedEventArgs e)
     {
+        _clipboardWindow?.Hide();
         _viewModel.SaveWindowPosition(Left, Top);
         Close();
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
+        _clipboardWindow?.Hide();
         _viewModel.SaveWindowPosition(Left, Top);
         base.OnClosing(e);
     }

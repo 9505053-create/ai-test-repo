@@ -177,25 +177,6 @@
                 </DockPanel>
             </Border>
 
-            <!-- ══ 剪貼簿顯示區（標題列下方，ON 時才顯示）══ -->
-            <Border DockPanel.Dock="Top"
-                    Visibility="{Binding ShowClipboard, Converter={StaticResource BoolToVisConverter}}"
-                    Background="#1AFFFFFF" CornerRadius="4" Padding="8,4" Margin="0,0,0,4"
-                    MouseLeftButtonDown="OnClipboardRefresh">
-                <DockPanel>
-                    <TextBlock Text="📋" FontSize="10" Foreground="#FF888888"
-                               VerticalAlignment="Top" Margin="0,1,6,0" DockPanel.Dock="Left"/>
-                    <TextBlock Text="點擊重新整理" FontSize="8" Foreground="#FF555555"
-                               VerticalAlignment="Top" HorizontalAlignment="Right"
-                               DockPanel.Dock="Right" Margin="6,2,0,0"/>
-                    <TextBlock Text="{Binding ClipboardText}"
-                               Foreground="#FFDDDDDD" FontSize="10"
-                               FontFamily="Microsoft JhengHei UI"
-                               TextWrapping="Wrap" MaxHeight="60"
-                               TextTrimming="CharacterEllipsis"/>
-                </DockPanel>
-            </Border>
-
             <!-- ══ 鍵盤主體 + 輔助線 ══ -->
             <Grid>
                 <!-- 鍵帽 -->
