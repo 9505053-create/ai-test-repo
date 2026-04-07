@@ -86,17 +86,13 @@ public partial class ClipboardWindow : Window
     {
         try
         {
-            string text = "";
-            if (Clipboard.ContainsText())
-                text = Clipboard.GetText();
+            string text = GetClipboardDescription();
 
             bool changed = text != _lastClipboardText;
             if (changed || force)
             {
                 _lastClipboardText = text;
-                ContentText.Text = string.IsNullOrEmpty(text)
-                    ? "（剪貼簿無文字內容）"
-                    : text;
+                ContentText.Text = text;
 
                 // 更新時間戳
                 UpdateTimeText.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -127,6 +123,53 @@ public partial class ClipboardWindow : Window
             ContentText.Text = "（無法讀取剪貼簿）";
             AppLogger.Error("讀取剪貼簿失敗", ex);
         }
+    }
+
+    /// <summary>
+    /// 讀取剪貼簿，依照內容格式回傳描述字串。
+    /// 支援：文字、圖片、檔案清單、其他格式。
+    /// </summary>
+    private static string GetClipboardDescription()
+    {
+        // 文字（最常見，優先）
+        if (Clipboard.ContainsText())
+        {
+            var text = Clipboard.GetText();
+            return string.IsNullOrWhiteSpace(text) ? "（剪貼簿：空白文字）" : text;
+        }
+
+        // 圖片
+        if (Clipboard.ContainsImage())
+        {
+            var img = Clipboard.GetImage();
+            if (img != null)
+                return $"[圖片]　{img.PixelWidth} × {img.PixelHeight} px";
+            return "[圖片]（無法讀取尺寸）";
+        }
+
+        // 檔案/資料夾清單
+        if (Clipboard.ContainsFileDropList())
+        {
+            var files = Clipboard.GetFileDropList();
+            if (files.Count == 1)
+                return $"[檔案]　{files[0]}";
+            var lines = new System.Text.StringBuilder();
+            lines.AppendLine($"[檔案 ×{files.Count}]");
+            foreach (string? f in files)
+                if (f != null) lines.AppendLine($"  {System.IO.Path.GetFileName(f)}");
+            return lines.ToString().TrimEnd();
+        }
+
+        // 其他格式（列出格式名稱）
+        var data = Clipboard.GetDataObject();
+        if (data != null)
+        {
+            var formats = data.GetFormats(autoConvert: false);
+            if (formats.Length > 0)
+                return $"[其他格式]\n  {string.Join("\n  ", formats.Take(5))}";
+        }
+
+        return "（剪貼簿無內容）";
     }
 
     // ── 拖曳 ─────────────────────────────────────────────
