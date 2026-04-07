@@ -1,5 +1,148 @@
 [
   {
+    "KeyId": "key_esc",
+    "VirtualKey": "0x1B",
+    "StandardLabel": "Esc",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 0.0,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f1",
+    "VirtualKey": "0x70",
+    "StandardLabel": "F1",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 1.2,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f2",
+    "VirtualKey": "0x71",
+    "StandardLabel": "F2",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 2.2,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f3",
+    "VirtualKey": "0x72",
+    "StandardLabel": "F3",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 3.2,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f4",
+    "VirtualKey": "0x73",
+    "StandardLabel": "F4",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 4.2,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f5",
+    "VirtualKey": "0x74",
+    "StandardLabel": "F5",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 5.4,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f6",
+    "VirtualKey": "0x75",
+    "StandardLabel": "F6",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 6.4,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f7",
+    "VirtualKey": "0x76",
+    "StandardLabel": "F7",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 7.4,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f8",
+    "VirtualKey": "0x77",
+    "StandardLabel": "F8",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 8.4,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f9",
+    "VirtualKey": "0x78",
+    "StandardLabel": "F9",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 9.6,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f10",
+    "VirtualKey": "0x79",
+    "StandardLabel": "F10",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 10.6,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f11",
+    "VirtualKey": "0x7A",
+    "StandardLabel": "F11",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 11.6,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
+    "KeyId": "key_f12",
+    "VirtualKey": "0x7B",
+    "StandardLabel": "F12",
+    "IsModifier": false,
+    "IsFunctionKey": true,
+    "Row": -1,
+    "Col": 12.6,
+    "WidthMultiplier": 1.0,
+    "LayoutGroup": "Function"
+  },
+  {
     "KeyId": "key_grave",
     "VirtualKey": "0xC0",
     "StandardLabel": "`",

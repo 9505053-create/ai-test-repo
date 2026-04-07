@@ -3,11 +3,186 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:KeyboardVisualAssist.Overlay">
     <UserControl.Resources>
-        <local:FadeStateToBrushConverter       x:Key="FadeStateToBrushConv"/>
-        <local:FadeStateToBorderBrushConverter x:Key="FadeStateToBorderConv"/>
-        <local:StringToVisibilityConverter     x:Key="StringToVisConv"/>
-        <local:LabelModeToVisibilityConverter  x:Key="LabelModeToVisConv"/>
+        <local:FadeStateToBrushConverter         x:Key="FadeStateToBrushConv"/>
+        <local:FadeStateToBorderBrushConverter   x:Key="FadeStateToBorderConv"/>
+        <local:StringToVisibilityConverter       x:Key="StringToVisConv"/>
+        <local:LabelModeToVisibilityConverter    x:Key="LabelModeToVisConv"/>
+        <local:ColorThemeToLabelBrushConverter   x:Key="ThemeBrushConv"/>
     </UserControl.Resources>
+
+    <Border x:Name="KeyBorder" Height="34" CornerRadius="4" Margin="1.5" BorderThickness="1">
+        <Border.Background>
+            <MultiBinding Converter="{StaticResource FadeStateToBrushConv}">
+                <Binding Path="DisplayState"/>
+                <Binding Path="IsModifier"/>
+            </MultiBinding>
+        </Border.Background>
+        <Border.BorderBrush>
+            <Binding Path="DisplayState" Converter="{StaticResource FadeStateToBorderConv}"/>
+        </Border.BorderBrush>
+
+        <Grid>
+            <!-- ═══ 單模式大字（TraditionalOnly / HsuOnly）═══ -->
+
+            <!-- TraditionalOnly：注音大字，置中，顏色依主題 -->
+            <TextBlock x:Name="TraditionalCenterText"
+                       FontFamily="Microsoft JhengHei UI"
+                       FontSize="14" FontWeight="SemiBold"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Traditional"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="CenterTraditional"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- HsuOnly：許氏主音大字，置中偏下，顏色依主題 -->
+            <TextBlock x:Name="HsuCenterText"
+                       FontFamily="Microsoft JhengHei UI"
+                       FontSize="12" FontWeight="SemiBold"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Margin="0,6,0,0">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="CenterHsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- HsuOnly：許氏 Shift 音小字，右上 -->
+            <TextBlock x:Name="HsuShiftCenterText"
+                       Text="{Binding SecondaryShiftLabel}"
+                       FontFamily="Microsoft JhengHei UI"
+                       FontSize="8"
+                       VerticalAlignment="Top" HorizontalAlignment="Right"
+                       Margin="0,3,3,0">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="CenterHsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- ═══ All 模式：三層顯示 ═══ -->
+
+            <!-- All：注音，左上 -->
+            <TextBlock Text="{Binding TraditionalLabel}"
+                       FontSize="8" FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Top" HorizontalAlignment="Left"
+                       Margin="3,2,0,0">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Traditional"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Traditional"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- All：許氏 Shift 音，右上 -->
+            <TextBlock Text="{Binding SecondaryShiftLabel}"
+                       FontSize="7" FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Top" HorizontalAlignment="Right"
+                       Margin="0,2,3,0">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="HsuShift"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- All / EnglishAndHsu：許氏主音，左下 -->
+            <TextBlock Text="{Binding SecondaryLabel}"
+                       FontSize="8" FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                       Margin="3,0,0,2">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- EnglishAndHsu：許氏 Shift 音，右下 -->
+            <TextBlock Text="{Binding SecondaryShiftLabel}"
+                       FontSize="7" FontFamily="Microsoft JhengHei UI"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                       Margin="0,0,3,2">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Hsu"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="HsuShiftEng"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+
+            <!-- ═══ 英文主標籤（白色，中央，顏色依主題）═══ -->
+            <TextBlock x:Name="MainText"
+                       Text="{Binding PrimaryLabel}"
+                       FontFamily="Consolas"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock.Foreground>
+                    <MultiBinding Converter="{StaticResource ThemeBrushConv}">
+                        <Binding Path="DataContext.ColorTheme" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="English"/>
+                    </MultiBinding>
+                </TextBlock.Foreground>
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
+                        <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        <Binding Source="Primary"/>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+        </Grid>
+    </Border>
+</UserControl>
 
     <Border x:Name="KeyBorder" Height="34" CornerRadius="4" Margin="1.5" BorderThickness="1">
         <Border.Background>

@@ -51,6 +51,9 @@ public class AppConfig
     /// <summary>Small / Medium / Large</summary>
     public string ScaleMode { get; set; } = "Small";
 
+    /// <summary>顏色主題：Default / Warm / Cool / Mono</summary>
+    public string ColorTheme { get; set; } = "Default";
+
     // ── TargetAppsOnly 模式用 ────────────────────────────
     public List<string> TargetApps { get; set; } = new()
     {

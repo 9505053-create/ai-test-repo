@@ -71,8 +71,8 @@
                             MouseLeftButtonDown="StopDragPropagation">
                     <Button Content="{Binding LabelModeLabel}" Click="OnCycleLabelMode"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="切換標籤：全/英/注/許/英+許"/>
-                    <Button Content="{Binding LayoutLabel}"   Click="OnToggleLayout"
-                            Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="切換 標準/許氏"/>
+                    <Button Content="{Binding ColorThemeLabel}" Click="OnCycleColorTheme"
+                            Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="切換顏色主題：預設/暖/冷/灰階"/>
                     <Button Content="{Binding ScaleLabel}"    Click="OnCycleScale"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="切換大/中/小"/>
                     <Button Content="{Binding LockLabel}"     Click="OnToggleLock"
@@ -175,7 +175,7 @@
             <ItemsControl ItemsSource="{Binding KeyCaps}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Width="614" Height="195"/>
+                <Canvas Width="614" Height="233"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

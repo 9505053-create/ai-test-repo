@@ -111,6 +111,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _labelMode      = Cfg.LabelMode;
         _scaleMode      = Cfg.ScaleMode;
         _overlayOpacity = Cfg.OverlayOpacity;
+        _colorTheme     = Cfg.ColorTheme;
 
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
@@ -139,7 +140,13 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     {
         bool isCompact = viewMode == "Compact";
         foreach (var cap in KeyCaps)
-            cap.IsVisible = !isCompact || cap.LayoutGroup == "Main";
+        {
+            // Compact：只顯示主鍵區 + Function列（ESC/F1~F12 永遠顯示）
+            // Full：顯示全部
+            cap.IsVisible = !isCompact
+                || cap.LayoutGroup == "Main"
+                || cap.LayoutGroup == "Function";
+        }
         Cfg.ViewMode = viewMode;
         _configSvc.SaveDebounced();
     }
@@ -175,9 +182,47 @@ public partial class OverlayViewModel : INotifyPropertyChanged
             }
         }
 
-        // 修飾鍵組合高亮同步（按下時更新）
-        if (data.IsKeyDown)
-            HighlightModifiers(data.Modifiers);
+        // 修飾鍵組合高亮同步：KeyDown 和 KeyUp 都要更新
+        // 避免「Shift 按下但 Modifiers 快照未即時反映」問題：
+        // 若按下的就是修飾鍵本身，以 IsKeyDown 直接覆寫快照值
+        var mod = data.Modifiers;
+        int vk = data.VirtualKey;
+        SyncModifierHighlights(mod, vk, data.IsKeyDown);
+    }
+
+    private void SyncModifierHighlights(ModifierState mod, int vkCode, bool isKeyDown)
+    {
+        // 修飾鍵 VK 碼
+        const int VK_SHIFT_L   = 0xA0;
+        const int VK_SHIFT_R   = 0xA1;
+        const int VK_CTRL_L    = 0xA2;
+        const int VK_CTRL_R    = 0xA3;
+        const int VK_ALT_L     = 0xA4;
+        const int VK_ALT_R     = 0xA5;
+        const int VK_SHIFT     = 0x10;
+        const int VK_CTRL      = 0x11;
+        const int VK_ALT       = 0x12;
+
+        // 若按下/放開的就是修飾鍵本身，以 isKeyDown 修正快照可能的誤差
+        bool shiftDown = mod.Shift;
+        bool ctrlDown  = mod.Ctrl;
+        bool altDown   = mod.Alt;
+
+        if (vkCode is VK_SHIFT or VK_SHIFT_L or VK_SHIFT_R) shiftDown = isKeyDown;
+        if (vkCode is VK_CTRL  or VK_CTRL_L  or VK_CTRL_R)  ctrlDown  = isKeyDown;
+        if (vkCode is VK_ALT   or VK_ALT_L   or VK_ALT_R)   altDown   = isKeyDown;
+
+        SetModifierState("key_shift_l", shiftDown);
+        SetModifierState("key_shift_r", shiftDown);
+        SetModifierState("key_ctrl_l",  ctrlDown);
+        SetModifierState("key_ctrl_r",  ctrlDown);
+        SetModifierState("key_alt_l",   altDown);
+        SetModifierState("key_alt_r",   altDown);
+    }
+
+    private void SetModifierState(string keyId, bool pressed)
+    {
+        if (_keyCapMap.TryGetValue(keyId, out var cap)) cap.IsPressed = pressed;
     }
 
     private void ClearAllNonModifierHighlights()
@@ -193,21 +238,6 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         AppLogger.Info("手動清除高亮");
     }
 
-    private void HighlightModifiers(ModifierState mod)
-    {
-        SetModifierState("key_shift_l", mod.Shift);
-        SetModifierState("key_shift_r", mod.Shift);
-        SetModifierState("key_ctrl_l",  mod.Ctrl);
-        SetModifierState("key_ctrl_r",  mod.Ctrl);
-        SetModifierState("key_alt_l",   mod.Alt);
-        SetModifierState("key_alt_r",   mod.Alt);
-    }
-
-    private void SetModifierState(string keyId, bool pressed)
-    {
-        if (_keyCapMap.TryGetValue(keyId, out var cap)) cap.IsPressed = pressed;
-    }
-
     private void UpdateRecentKeys(string label, bool isModifier)
     {
         if (string.IsNullOrWhiteSpace(label)) return;
@@ -217,6 +247,41 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     }
 
     // ── 切換操作 ─────────────────────────────────────────
+
+    // ── 顏色主題 ─────────────────────────────────────────
+    // 主題定義：英文/許氏/注音 三層顏色
+    // Default: 英=白 許=紅 注=藍
+    // Warm:    英=白 許=橙 注=黃
+    // Cool:    英=青 許=紫 注=綠
+    // Mono:    英=白 許=灰 注=灰
+
+    private string _colorTheme = "Default";
+    public string ColorTheme
+    {
+        get => _colorTheme;
+        set { _colorTheme = value; OnPropertyChanged(); OnPropertyChanged(nameof(ColorThemeLabel)); }
+    }
+    public string ColorThemeLabel => _colorTheme switch
+    {
+        "Warm" => "暖",
+        "Cool" => "冷",
+        "Mono" => "灰",
+        _      => "色"
+    };
+
+    public void CycleColorTheme()
+    {
+        ColorTheme = ColorTheme switch
+        {
+            "Default" => "Warm",
+            "Warm"    => "Cool",
+            "Cool"    => "Mono",
+            _         => "Default"
+        };
+        Cfg.ColorTheme = ColorTheme;
+        _configSvc.SaveDebounced();
+        AppLogger.Info($"切換顏色主題: {ColorTheme}");
+    }
 
     public void ToggleLayout()
     {

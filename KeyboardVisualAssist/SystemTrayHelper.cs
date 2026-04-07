@@ -10,7 +10,7 @@ public sealed class SystemTrayHelper : IDisposable
 
     public SystemTrayHelper(
         Action toggleOverlay,
-        Action toggleLayout,
+        Action cycleColorTheme,
         Action toggleLock,
         Action toggleView,
         Action cycleLabelMode,
@@ -27,7 +27,7 @@ public sealed class SystemTrayHelper : IDisposable
         AddItem(menu, "顯示 / 隱藏",           toggleOverlay);
         AddItem(menu, "🔒 鎖定 / 🔓 解鎖",     toggleLock);
         menu.Items.Add(new System.Windows.Controls.Separator());
-        AddItem(menu, "切換 Standard / Hsu",    toggleLayout);
+        AddItem(menu, "🎨 切換顏色主題",        cycleColorTheme);
         AddItem(menu, "切換標籤模式",            cycleLabelMode);
         AddItem(menu, "切換 Compact / Full",     toggleView);
         AddItem(menu, "⌫ 清除高亮",             clearHighlight);

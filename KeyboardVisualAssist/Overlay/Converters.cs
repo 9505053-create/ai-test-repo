@@ -60,10 +60,21 @@ public class FadeStateToBorderBrushConverter : IValueConverter
 [ValueConversion(typeof(int), typeof(double))]
 public class RowToYConverter : IValueConverter
 {
-    private static readonly double[] RowY = { 0, 38, 76, 114, 152 };
+    // Row -1 = ESC/F-key 列（最頂部），Row 0~4 = 主鍵區
+    private static readonly double[] RowY = { 38, 76, 114, 152, 190 }; // Row 0~4 往下移 38px
+
     public object Convert(object value, Type t, object p, CultureInfo c)
-        => value is int row && row >= 0 && row < RowY.Length ? RowY[row] : 0.0;
-    public object ConvertBack(object value, Type t, object p, CultureInfo c) => throw new NotImplementedException();
+    {
+        if (value is int row)
+        {
+            if (row == -1) return 2.0;           // F-key 列頂部，留 2px padding
+            int idx = Math.Clamp(row, 0, RowY.Length - 1);
+            return RowY[idx];
+        }
+        return 0.0;
+    }
+    public object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotImplementedException();
+}
 }
 
 /// <summary>Col 浮點偏移 → Canvas X 座標（基礎單位 38px）</summary>
@@ -161,4 +172,42 @@ public class BoolToColorConverter : IValueConverter
     public object Convert(object value, Type t, object p, CultureInfo c)
         => value is true ? ActiveBrush : InactiveBrush;
     public object ConvertBack(object value, Type t, object p, CultureInfo c) => throw new NotImplementedException();
+}
+
+/// <summary>
+/// ColorTheme + 標籤類型 → Brush
+/// 控制英文/許氏/注音三層標籤的顏色，依主題切換。
+/// values[0] = ColorTheme (string), values[1] = LabelType (string: "English"/"Hsu"/"Traditional")
+/// </summary>
+public class ColorThemeToLabelBrushConverter : IMultiValueConverter
+{
+    // Default：英=白 許=紅 注=藍
+    // Warm：   英=白 許=橙 注=黃
+    // Cool：   英=青 許=紫 注=綠
+    // Mono：   英=白 許=灰 注=灰
+
+    private static SolidColorBrush Brush(byte r, byte g, byte b) => new(Color.FromRgb(r, g, b));
+
+    private static readonly Dictionary<string, (SolidColorBrush Eng, SolidColorBrush Hsu, SolidColorBrush Traditional)> Themes = new()
+    {
+        ["Default"] = (Brush(0xFF,0xFF,0xFF), Brush(0xFF,0x44,0x44), Brush(0x44,0x99,0xFF)),
+        ["Warm"]    = (Brush(0xFF,0xFF,0xFF), Brush(0xFF,0x88,0x00), Brush(0xFF,0xDD,0x44)),
+        ["Cool"]    = (Brush(0x44,0xFF,0xEE), Brush(0xBB,0x66,0xFF), Brush(0x44,0xDD,0x88)),
+        ["Mono"]    = (Brush(0xFF,0xFF,0xFF), Brush(0x99,0x99,0x99), Brush(0xAA,0xAA,0xAA)),
+    };
+
+    public object Convert(object[] values, Type t, object p, CultureInfo c)
+    {
+        string theme = values[0] as string ?? "Default";
+        string label = values[1] as string ?? "English";
+        if (!Themes.TryGetValue(theme, out var colors))
+            colors = Themes["Default"];
+        return label switch
+        {
+            "Hsu"         => colors.Hsu,
+            "Traditional" => colors.Traditional,
+            _             => colors.Eng,
+        };
+    }
+    public object[] ConvertBack(object v, Type[] t, object p, CultureInfo c) => throw new NotImplementedException();
 }

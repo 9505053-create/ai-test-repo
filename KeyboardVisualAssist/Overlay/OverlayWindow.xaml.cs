@@ -137,17 +137,17 @@ public partial class OverlayWindow : Window
 
     // ── 按鈕事件 ─────────────────────────────────────────
 
-    private void OnToggleLayout(object sender, RoutedEventArgs e)
-        => _viewModel.ToggleLayout();
+    private void OnCycleLabelMode(object sender, RoutedEventArgs e)
+        => _viewModel.CycleLabelMode();
+
+    private void OnCycleColorTheme(object sender, RoutedEventArgs e)
+        => _viewModel.CycleColorTheme();
 
     private void OnToggleLock(object sender, RoutedEventArgs e)
         => _viewModel.ToggleLock();
 
     private void OnToggleView(object sender, RoutedEventArgs e)
         => _viewModel.ToggleViewMode();
-
-    private void OnCycleLabelMode(object sender, RoutedEventArgs e)
-        => _viewModel.CycleLabelMode();
 
     private void OnCycleScale(object sender, RoutedEventArgs e)
         => _viewModel.CycleScaleMode();

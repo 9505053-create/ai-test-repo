@@ -56,13 +56,13 @@ public partial class App : Application
             }
 
             _tray = new SystemTrayHelper(
-                toggleOverlay:  () => Dispatcher.Invoke(ToggleOverlay),
-                toggleLayout:   () => Dispatcher.Invoke(() => _viewModel.ToggleLayout()),
-                toggleLock:     () => Dispatcher.Invoke(ToggleLock),
-                toggleView:     () => Dispatcher.Invoke(() => _viewModel.ToggleViewMode()),
-                cycleLabelMode: () => Dispatcher.Invoke(() => _viewModel.CycleLabelMode()),
-                clearHighlight: () => Dispatcher.Invoke(() => _viewModel.ClearHighlight()),
-                exit:           () => Dispatcher.Invoke(Shutdown)
+                toggleOverlay:   () => Dispatcher.Invoke(ToggleOverlay),
+                cycleColorTheme: () => Dispatcher.Invoke(() => _viewModel.CycleColorTheme()),
+                toggleLock:      () => Dispatcher.Invoke(ToggleLock),
+                toggleView:      () => Dispatcher.Invoke(() => _viewModel.ToggleViewMode()),
+                cycleLabelMode:  () => Dispatcher.Invoke(() => _viewModel.CycleLabelMode()),
+                clearHighlight:  () => Dispatcher.Invoke(() => _viewModel.ClearHighlight()),
+                exit:            () => Dispatcher.Invoke(Shutdown)
             );
         }
         catch (Exception ex)
