@@ -25,7 +25,6 @@ public partial class OverlayWindow : Window
     private const double GripBarHeightPx  = 25.0;
 
     private readonly OverlayViewModel _viewModel;
-    private double _savedLeft, _savedTop;
     private bool _isMinimized = false;
 
     public OverlayWindow(OverlayViewModel viewModel)
