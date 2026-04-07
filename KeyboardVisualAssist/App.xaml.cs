@@ -21,7 +21,7 @@ public partial class App : Application
     {
         base.OnStartup(e);
         AppLogger.Init();
-        AppLogger.Info("KeyboardVisualAssist v1.4 啟動");
+        AppLogger.Info("KeyboardVisualAssist v1.0 啟動");
 
         try
         {
