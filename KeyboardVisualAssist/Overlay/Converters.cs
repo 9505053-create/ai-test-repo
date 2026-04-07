@@ -116,26 +116,33 @@ public class StringToVisibilityConverter : IValueConverter
 /// <summary>LabelMode + 標籤種類 → Visibility（控制每層標籤顯示）</summary>
 public class LabelModeToVisibilityConverter : IMultiValueConverter
 {
-    /// values[0]=LabelMode(string), values[1]=LabelType
+    /// values[0]=LabelMode(string), values[1]=LabelType(string), values[2]=IsModifier(bool, optional), values[3]=IsFunctionKey(bool, optional)
     /// LabelType: Primary / Traditional / Hsu / HsuShift / HsuShiftEng
     ///            CenterTraditional / CenterHsu
-    /// 
-    /// All:            Primary(中央) + Traditional(左上藍) + HsuShift(右上橙) + Hsu(左下紅)
-    /// EnglishOnly:    Primary(中央)
-    /// TraditionalOnly: CenterTraditional(中央大字藍)
-    /// HsuOnly:        CenterHsu(中央大字紅) + CenterHsu Shift(右上橙)
-    /// EnglishAndHsu:  Primary(中央) + Hsu(左下紅) + HsuShiftEng(右下橙)
+    ///
+    /// 規則：修飾鍵/功能鍵（Ctrl/Alt/Win/Enter/Esc/F1~F12 等）
+    ///   - Primary 標籤在任何模式下都顯示（這些鍵沒有注音，強制顯示英文）
+    ///   - 注音/許氏標籤永遠不顯示
     public object Convert(object[] values, Type t, object p, CultureInfo c)
     {
         var mode      = values[0] as string ?? "All";
         var labelType = values[1] as string ?? "Primary";
+        bool isMod    = values.Length > 2 && values[2] is bool b2 && b2;
+        bool isFn     = values.Length > 3 && values[3] is bool b3 && b3;
+        bool isSpecial = isMod || isFn;
+
+        // 修飾鍵/功能鍵：只顯示 Primary，其他標籤一律隱藏
+        if (isSpecial)
+        {
+            return labelType == "Primary" ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         bool visible = mode switch
         {
             "EnglishOnly"     => labelType == "Primary",
             "TraditionalOnly" => labelType == "CenterTraditional",
             "HsuOnly"         => labelType is "CenterHsu",
             "EnglishAndHsu"   => labelType is "Primary" or "Hsu" or "HsuShiftEng",
-            // All：英文中央 + 傳統注音左上 + 許氏Shift右上 + 許氏主音左下
             _                 => labelType is "Primary" or "Traditional" or "HsuShift" or "Hsu"
         };
         return visible ? Visibility.Visible : Visibility.Collapsed;

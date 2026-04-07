@@ -112,6 +112,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _scaleMode      = Cfg.ScaleMode;
         _overlayOpacity = Cfg.OverlayOpacity;
         _colorTheme     = Cfg.ColorTheme;
+        _bgTheme        = Cfg.BgTheme;
 
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
@@ -248,7 +249,46 @@ public partial class OverlayViewModel : INotifyPropertyChanged
 
     // ── 切換操作 ─────────────────────────────────────────
 
-    // ── 顏色主題 ─────────────────────────────────────────
+    // ── 鍵盤底色主題 ─────────────────────────────────────
+    // Dark（預設黑）/ Darker（更黑）/ Gray（深灰）/ Blue（深藍）/ Green（深綠）
+
+    private string _bgTheme = "Dark";
+    public string BgTheme
+    {
+        get => _bgTheme;
+        set { _bgTheme = value; OnPropertyChanged(); OnPropertyChanged(nameof(BgThemeLabel)); OnPropertyChanged(nameof(KeyboardBackground)); }
+    }
+    public string BgThemeLabel => _bgTheme switch
+    {
+        "Darker" => "黑²",
+        "Gray"   => "灰底",
+        "Blue"   => "藍底",
+        "Green"  => "綠底",
+        _        => "黑底"
+    };
+    public System.Windows.Media.SolidColorBrush KeyboardBackground => _bgTheme switch
+    {
+        "Darker" => new(System.Windows.Media.Color.FromRgb(0x08, 0x08, 0x08)),
+        "Gray"   => new(System.Windows.Media.Color.FromRgb(0x28, 0x28, 0x30)),
+        "Blue"   => new(System.Windows.Media.Color.FromRgb(0x08, 0x10, 0x28)),
+        "Green"  => new(System.Windows.Media.Color.FromRgb(0x08, 0x20, 0x10)),
+        _        => new(System.Windows.Media.Color.FromRgb(0x16, 0x16, 0x16)),
+    };
+
+    public void CycleBgTheme()
+    {
+        BgTheme = BgTheme switch
+        {
+            "Dark"   => "Darker",
+            "Darker" => "Gray",
+            "Gray"   => "Blue",
+            "Blue"   => "Green",
+            _        => "Dark"
+        };
+        Cfg.BgTheme = BgTheme;
+        _configSvc.SaveDebounced();
+        AppLogger.Info($"切換底色: {BgTheme}");
+    }
     // 主題定義：英文/許氏/注音 三層顏色
     // Default: 英=白 許=紅 注=藍
     // Warm:    英=白 許=橙 注=黃

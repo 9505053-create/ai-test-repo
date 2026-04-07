@@ -162,7 +162,7 @@
                 </TextBlock.Visibility>
             </TextBlock>
 
-            <!-- ═══ 英文主標籤（白色，中央，顏色依主題）═══ -->
+            <!-- ═══ 英文主標籤（中央，顏色依主題；修飾鍵/功能鍵在任何模式下都顯示）═══ -->
             <TextBlock x:Name="MainText"
                        Text="{Binding PrimaryLabel}"
                        FontFamily="Consolas"
@@ -177,6 +177,8 @@
                     <MultiBinding Converter="{StaticResource LabelModeToVisConv}">
                         <Binding Path="DataContext.LabelMode" RelativeSource="{RelativeSource AncestorType=Window}"/>
                         <Binding Source="Primary"/>
+                        <Binding Path="IsModifier"/>
+                        <Binding Path="IsFunctionKey"/>
                     </MultiBinding>
                 </TextBlock.Visibility>
             </TextBlock>

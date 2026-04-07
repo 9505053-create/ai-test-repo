@@ -33,7 +33,6 @@ public partial class OverlayWindow : Window
         InitializeComponent();
         _viewModel = viewModel;
         DataContext = viewModel;
-        Opacity = viewModel.GetConfig().OverlayOpacity;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -142,6 +141,9 @@ public partial class OverlayWindow : Window
 
     private void OnCycleColorTheme(object sender, RoutedEventArgs e)
         => _viewModel.CycleColorTheme();
+
+    private void OnCycleBgTheme(object sender, RoutedEventArgs e)
+        => _viewModel.CycleBgTheme();
 
     private void OnToggleLock(object sender, RoutedEventArgs e)
         => _viewModel.ToggleLock();

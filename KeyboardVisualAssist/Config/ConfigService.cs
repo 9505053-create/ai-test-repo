@@ -54,6 +54,9 @@ public class AppConfig
     /// <summary>顏色主題：Default / Warm / Cool / Mono</summary>
     public string ColorTheme { get; set; } = "Default";
 
+    /// <summary>鍵盤底色主題：Dark / Darker / Gray / Blue / Green</summary>
+    public string BgTheme { get; set; } = "Dark";
+
     // ── TargetAppsOnly 模式用 ────────────────────────────
     public List<string> TargetApps { get; set; } = new()
     {
