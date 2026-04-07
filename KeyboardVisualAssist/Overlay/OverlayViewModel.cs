@@ -113,6 +113,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         _overlayOpacity = Cfg.OverlayOpacity;
         _colorTheme     = Cfg.ColorTheme;
         _bgTheme        = Cfg.BgTheme;
+        _showGuideLines = Cfg.ShowGuideLines;
 
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
@@ -248,6 +249,21 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     }
 
     // ── 切換操作 ─────────────────────────────────────────
+
+    // ── 輔助線 ───────────────────────────────────────────
+    private bool _showGuideLines = true;
+    public bool ShowGuideLines
+    {
+        get => _showGuideLines;
+        set { _showGuideLines = value; OnPropertyChanged(); OnPropertyChanged(nameof(GuideLinesLabel)); Cfg.ShowGuideLines = value; _configSvc.SaveDebounced(); }
+    }
+    public string GuideLinesLabel => _showGuideLines ? "輔助線" : "無線";
+
+    public void ToggleGuideLines()
+    {
+        ShowGuideLines = !ShowGuideLines;
+        AppLogger.Info($"輔助線: {ShowGuideLines}");
+    }
 
     // ── 鍵盤底色主題 ─────────────────────────────────────
     // Dark（預設黑）/ Darker（更黑）/ Gray（深灰）/ Blue（深藍）/ Green（深綠）

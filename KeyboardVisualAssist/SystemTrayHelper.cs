@@ -10,6 +10,7 @@ public sealed class SystemTrayHelper : IDisposable
 
     public SystemTrayHelper(
         Action toggleOverlay,
+        Action restoreFromTray,
         Action cycleColorTheme,
         Action toggleLock,
         Action toggleView,
@@ -35,7 +36,8 @@ public sealed class SystemTrayHelper : IDisposable
         AddItem(menu, "結束",                   exit);
 
         _taskbarIcon.ContextMenu = menu;
-        _taskbarIcon.TrayMouseDoubleClick += (s, e) => toggleOverlay();
+        // 雙擊 → 還原視窗
+        _taskbarIcon.TrayMouseDoubleClick += (s, e) => restoreFromTray();
         AppLogger.Info("系統匣圖示建立完成");
     }
 

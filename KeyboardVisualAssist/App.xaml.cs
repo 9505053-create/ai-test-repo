@@ -57,6 +57,7 @@ public partial class App : Application
 
             _tray = new SystemTrayHelper(
                 toggleOverlay:   () => Dispatcher.Invoke(ToggleOverlay),
+                restoreFromTray: () => Dispatcher.Invoke(() => _overlay?.RestoreFromTray()),
                 cycleColorTheme: () => Dispatcher.Invoke(() => _viewModel.CycleColorTheme()),
                 toggleLock:      () => Dispatcher.Invoke(ToggleLock),
                 toggleView:      () => Dispatcher.Invoke(() => _viewModel.ToggleViewMode()),

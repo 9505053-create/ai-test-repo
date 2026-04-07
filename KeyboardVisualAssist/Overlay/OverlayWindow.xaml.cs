@@ -136,6 +136,9 @@ public partial class OverlayWindow : Window
 
     // ── 按鈕事件 ─────────────────────────────────────────
 
+    private void OnToggleGuideLines(object sender, RoutedEventArgs e)
+        => _viewModel.ToggleGuideLines();
+
     private void OnCycleLabelMode(object sender, RoutedEventArgs e)
         => _viewModel.CycleLabelMode();
 
@@ -167,20 +170,29 @@ public partial class OverlayWindow : Window
     {
         if (_isMinimized)
         {
-            RootBorder.Visibility = Visibility.Visible;
-            Left = _savedLeft;
-            Top  = _savedTop;
+            // 還原
+            ShowInTaskbar = false;
+            WindowState   = WindowState.Normal;
+            Activate();
             _isMinimized = false;
         }
         else
         {
-            _savedLeft = Left;
-            _savedTop  = Top;
-            RootBorder.Visibility = Visibility.Collapsed;
-            // 縮成小條
-            Width  = 120;
-            Height = 28;
-            _isMinimized = true;
+            // 縮到系統匣（不出現在工作列）
+            ShowInTaskbar = false;
+            WindowState   = WindowState.Minimized;
+            _isMinimized  = true;
+        }
+    }
+
+    /// <summary>系統匣圖示雙擊 → 還原視窗</summary>
+    public void RestoreFromTray()
+    {
+        if (_isMinimized)
+        {
+            ShowInTaskbar = false;
+            WindowState   = WindowState.Normal;
+            _isMinimized  = false;
         }
     }
 

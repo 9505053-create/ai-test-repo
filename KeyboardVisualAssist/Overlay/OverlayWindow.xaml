@@ -69,6 +69,8 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             MouseLeftButtonDown="StopDragPropagation">
+                    <Button Content="{Binding GuideLinesLabel}" Click="OnToggleGuideLines"
+                            Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="輔助線：左手紅/右手藍"/>
                     <Button Content="{Binding LabelModeLabel}" Click="OnCycleLabelMode"
                             Style="{StaticResource CtrlBtn}" Margin="0,0,2,0" ToolTip="切換標籤：全/英/注/許/英+許"/>
                     <Button Content="{Binding ColorThemeLabel}" Click="OnCycleColorTheme"
@@ -173,29 +175,49 @@
                 </DockPanel>
             </Border>
 
-            <!-- ══ 鍵盤主體 ══ -->
-            <ItemsControl ItemsSource="{Binding KeyCaps}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                <Canvas Width="614" Height="233"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:KeyButton DataContext="{Binding}"
-                                         Visibility="{Binding IsVisible,
-                                            Converter={StaticResource BoolToVisConverter}}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Canvas.Left"
-                                Value="{Binding Column, Converter={StaticResource ColToXConverter}}"/>
-                        <Setter Property="Canvas.Top"
-                                Value="{Binding Row, Converter={StaticResource RowToYConverter}}"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
+            <!-- ══ 鍵盤主體 + 輔助線 ══ -->
+            <Grid>
+                <!-- 鍵帽 -->
+                <ItemsControl ItemsSource="{Binding KeyCaps}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                    <Canvas Width="614" Height="233"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:KeyButton DataContext="{Binding}"
+                                             Visibility="{Binding IsVisible,
+                                                Converter={StaticResource BoolToVisConverter}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Canvas.Left"
+                                    Value="{Binding Column, Converter={StaticResource ColToXConverter}}"/>
+                            <Setter Property="Canvas.Top"
+                                    Value="{Binding Row, Converter={StaticResource RowToYConverter}}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+
+                <!-- 輔助線 Overlay（IsHitTestVisible=False 不攔截滑鼠）-->
+                <Canvas Width="614" Height="233" IsHitTestVisible="False"
+                        Visibility="{Binding ShowGuideLines, Converter={StaticResource BoolToVisConverter}}">
+                    <!-- 左手分界線（亮紅粗線）-->
+                    <Line X1="225" Y1="2"   X2="195" Y2="40"  Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="195" Y1="40"  X2="210" Y2="78"  Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="210" Y1="78"  X2="186" Y2="116" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="186" Y1="116" X2="210" Y2="154" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="210" Y1="154" X2="190" Y2="192" Stroke="#FFFF2222" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <!-- 右手分界線（亮藍粗線）-->
+                    <Line X1="304" Y1="2"   X2="285" Y2="40"  Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="285" Y1="40"  X2="300" Y2="78"  Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="300" Y1="78"  X2="284" Y2="116" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="284" Y1="116" X2="305" Y2="154" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                    <Line X1="305" Y1="154" X2="285" Y2="192" Stroke="#FF2288FF" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                </Canvas>
+            </Grid>
 
         </DockPanel>
     </Border>
