@@ -12,12 +12,12 @@
     <Border x:Name="KeyBorder" Height="34" CornerRadius="4" Margin="1.5" BorderThickness="1">
         <Border.Background>
             <MultiBinding Converter="{StaticResource FadeStateToBrushConv}">
-                <Binding Path="DisplayFadeState"/>
+                <Binding Path="DisplayState"/>
                 <Binding Path="IsModifier"/>
             </MultiBinding>
         </Border.Background>
         <Border.BorderBrush>
-            <Binding Path="DisplayFadeState" Converter="{StaticResource FadeStateToBorderConv}"/>
+            <Binding Path="DisplayState" Converter="{StaticResource FadeStateToBorderConv}"/>
         </Border.BorderBrush>
 
         <Grid>

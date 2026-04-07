@@ -59,9 +59,34 @@ public class AppConfig
     };
 }
 
+// ── 介面 ──────────────────────────────────────────────────────────────
+/// <summary>
+/// 配置服務介面
+/// OverlayViewModel 僅依賴此介面，不直接碰 IO 細節。
+/// </summary>
+public interface IConfigService
+{
+    AppConfig Config { get; }
+
+    /// <summary>
+    /// 一般設定變更後呼叫：Debounce 300ms 後寫檔，
+    /// 防止高頻 Toggle 連續觸發多次 IO。
+    /// </summary>
+    void SaveDebounced();
+
+    /// <summary>
+    /// 關閉或需要立即持久化時呼叫（跳過 Debounce）。
+    /// </summary>
+    void SaveImmediate();
+
+    /// <summary>視窗位置持久化（只在 RememberWindowPosition = true 時寫入）。</summary>
+    void SaveWindowPosition(double left, double top);
+}
+
+// ── 靜態 IO helpers（供 App.xaml.cs 啟動時使用）────────────────────────
 public static class ConfigService
 {
-    private static readonly JsonSerializerOptions JsonOpts = new()
+    internal static readonly JsonSerializerOptions JsonOpts = new()
     {
         WriteIndented = true,
         PropertyNameCaseInsensitive = true,
@@ -70,7 +95,7 @@ public static class ConfigService
         DefaultIgnoreCondition = JsonIgnoreCondition.Never
     };
 
-    private static string ConfigPath =>
+    internal static string ConfigPath =>
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "config.json");
 
     public static AppConfig Load()
@@ -106,5 +131,61 @@ public static class ConfigService
         {
             AppLogger.Error("儲存 config.json 失敗", ex);
         }
+    }
+}
+
+// ── 實作類別 ───────────────────────────────────────────────────────────
+/// <summary>
+/// IConfigService 實作。
+/// 內建 300ms Debounce：連續呼叫 SaveDebounced() 只觸發最後一次寫檔。
+/// </summary>
+public class ConfigManager : IConfigService, IDisposable
+{
+    public AppConfig Config { get; }
+
+    private readonly System.Windows.Threading.DispatcherTimer _debounceTimer;
+    private const int DebounceMs = 300;
+
+    public ConfigManager(AppConfig config)
+    {
+        Config = config;
+
+        _debounceTimer = new System.Windows.Threading.DispatcherTimer(
+            System.Windows.Threading.DispatcherPriority.Background)
+        {
+            Interval = TimeSpan.FromMilliseconds(DebounceMs)
+        };
+        _debounceTimer.Tick += (_, _) =>
+        {
+            _debounceTimer.Stop();
+            ConfigService.Save(Config);
+            AppLogger.Info("Config Debounce 寫檔完成");
+        };
+    }
+
+    public void SaveDebounced()
+    {
+        // 重置計時器（每次呼叫都延後 300ms）
+        _debounceTimer.Stop();
+        _debounceTimer.Start();
+    }
+
+    public void SaveImmediate()
+    {
+        _debounceTimer.Stop();
+        ConfigService.Save(Config);
+    }
+
+    public void SaveWindowPosition(double left, double top)
+    {
+        if (!Config.RememberWindowPosition) return;
+        Config.WindowLeft = left;
+        Config.WindowTop  = top;
+        SaveImmediate();   // 視窗位置在關閉時才呼叫，直接立即寫入
+    }
+
+    public void Dispose()
+    {
+        _debounceTimer.Stop();
     }
 }

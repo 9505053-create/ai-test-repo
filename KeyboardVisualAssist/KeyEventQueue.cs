@@ -14,7 +14,18 @@ public class KeyEventQueue : IDisposable
     private readonly ConcurrentQueue<KeyEventData> _queue = new();
     private readonly DispatcherTimer _timer;
     private readonly Action<KeyEventData> _processor;
-    private const int MaxProcessPerTick = 10; // 每次最多處理 10 個事件，防止積壓
+
+    // ── Dynamic Drain 參數 ───────────────────────────────
+    /// <summary>正常每 Tick 最多處理數量</summary>
+    private const int NormalBatchSize = 10;
+    /// <summary>Queue 超過此數量時啟動 Drain 模式</summary>
+    private const int DrainThreshold = 20;
+    /// <summary>Drain 模式單次最多處理上限（防 UI thread 被反壓）</summary>
+    private const int MaxDrainBatchSize = 40;
+    /// <summary>連續幾個 Tick queue 仍超過閾值才記 Warning</summary>
+    private const int HighQueueWarningTicks = 3;
+
+    private int _highQueueTickCount = 0;
 
     public event Action<KeyEventData>? EventProcessed;
 
@@ -38,8 +49,30 @@ public class KeyEventQueue : IDisposable
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
+        int queueLength = _queue.Count;
+
+        // Dynamic Drain：queue 積壓時自動提高單次處理量
+        int batchSize = queueLength > DrainThreshold
+            ? Math.Min(queueLength, MaxDrainBatchSize)
+            : NormalBatchSize;
+
+        // 長時間高 queue 警告（不丟棄事件，僅記錄）
+        if (queueLength > DrainThreshold)
+        {
+            _highQueueTickCount++;
+            if (_highQueueTickCount >= HighQueueWarningTicks)
+            {
+                AppLogger.Error($"KeyEventQueue 持續積壓：queue={queueLength}，已連續 {_highQueueTickCount} Tick 超過閾值");
+                _highQueueTickCount = 0; // 重置，避免重複 spam
+            }
+        }
+        else
+        {
+            _highQueueTickCount = 0;
+        }
+
         int processed = 0;
-        while (processed < MaxProcessPerTick && _queue.TryDequeue(out var data))
+        while (processed < batchSize && _queue.TryDequeue(out var data))
         {
             try
             {

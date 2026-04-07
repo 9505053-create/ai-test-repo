@@ -15,21 +15,26 @@ public partial class App : Application
     private OverlayViewModel? _viewModel;
     private ForegroundAppMonitor? _monitor;
     private SystemTrayHelper? _tray;
+    private ConfigManager? _configManager;
 
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         AppLogger.Init();
-        AppLogger.Info("KeyboardVisualAssist v1.2 啟動");
+        AppLogger.Info("KeyboardVisualAssist v1.4 啟動");
 
         try
         {
-            var config     = ConfigService.Load();
-            var repository = new KeyMapRepository();
+            var config      = ConfigService.Load();
+            _configManager  = new ConfigManager(config);
+
+            var repository  = new KeyMapRepository();
             repository.LoadAll();
             AppLogger.Info($"KeyMap 載入完成，共 {repository.AllEntries.Count} 顆按鍵");
 
-            _viewModel = new OverlayViewModel(config, repository);
+            var keymapSvc   = new KeymapService(repository);
+
+            _viewModel = new OverlayViewModel(_configManager, keymapSvc, repository);
             _overlay   = new OverlayWindow(_viewModel);
             _overlay.Show();
             AppLogger.Info($"Overlay 視窗已顯示，Log 路徑: {AppLogger.CurrentLogPath}");
@@ -88,6 +93,9 @@ public partial class App : Application
         _monitor?.Stop();
         _viewModel?.StatusMonitor.Stop();
         _tray?.Dispose();
+        // 關閉時確保立即寫入（跳過 Debounce）
+        _configManager?.SaveImmediate();
+        _configManager?.Dispose();
         AppLogger.Info("KeyboardVisualAssist 關閉");
         base.OnExit(e);
     }

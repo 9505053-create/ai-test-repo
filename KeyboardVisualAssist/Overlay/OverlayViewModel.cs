@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using KeyboardVisualAssist.Config;
 using KeyboardVisualAssist.InputCapture;
-using System.Windows.Media;
 using KeyboardVisualAssist.KeyMap;
 using KeyboardVisualAssist.Logging;
 
@@ -12,12 +11,15 @@ namespace KeyboardVisualAssist.Overlay;
 
 public partial class OverlayViewModel : INotifyPropertyChanged
 {
-    private readonly AppConfig _config;
+    private readonly IConfigService _configSvc;
+    private readonly IKeymapService _keymapSvc;
     private readonly KeyMapper _mapper;
-    private readonly KeyMapRepository _repository;
     private readonly KeyEventQueue _queue;
-    private readonly Dictionary<string, DispatcherTimer> _fadeTimers = new();
+    private readonly KeyCapStateMachine _stateMachine;
     public InputStatusMonitor StatusMonitor { get; } = new();
+
+    // 方便存取
+    private AppConfig Cfg => _configSvc.Config;
 
     public ObservableCollection<KeyCapViewModel> KeyCaps { get; } = new();
     private readonly Dictionary<string, KeyCapViewModel> _keyCapMap = new();
@@ -81,7 +83,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     public string ScaleLabel => _scaleMode switch { "Large" => "大", "Medium" => "中", _ => "小" };
     public double WindowScale => _scaleMode switch { "Large" => 1.35, "Medium" => 1.0, _ => 0.75 };
 
-    public bool ShowRecentKeys => _config.ShowRecentKeys;
+    public bool ShowRecentKeys => Cfg.ShowRecentKeys;
 
     private double _overlayOpacity;
     public double OverlayOpacity
@@ -90,75 +92,45 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         set
         {
             _overlayOpacity = Math.Clamp(value, 0.2, 1.0);
-            _config.OverlayOpacity = _overlayOpacity;
+            Cfg.OverlayOpacity = _overlayOpacity;
             OnPropertyChanged();
         }
     }
 
     // ── 建構子 ───────────────────────────────────────────
 
-    public OverlayViewModel(AppConfig config, KeyMapRepository repository)
+    public OverlayViewModel(IConfigService configSvc, IKeymapService keymapSvc, KeyMapRepository repository)
     {
-        _config = config;
-        _repository = repository;
-        _mapper = new KeyMapper(repository);
+        _configSvc  = configSvc;
+        _keymapSvc  = keymapSvc;
+        _mapper     = new KeyMapper(repository);
 
-        _isLocked   = config.OverlayLocked;
-        _viewMode   = config.ViewMode;
-        _layoutMode = config.LayoutMode;
-        _labelMode  = config.LabelMode;
-        _scaleMode      = config.ScaleMode;
-        _overlayOpacity = config.OverlayOpacity;
+        _isLocked       = Cfg.OverlayLocked;
+        _viewMode       = Cfg.ViewMode;
+        _layoutMode     = Cfg.LayoutMode;
+        _labelMode      = Cfg.LabelMode;
+        _scaleMode      = Cfg.ScaleMode;
+        _overlayOpacity = Cfg.OverlayOpacity;
 
         BuildKeyCaps();
         ApplyViewMode(_viewMode);
 
         AppLogger.Info($"KeyCaps 建立完成，共 {KeyCaps.Count} 個鍵帽，ViewMode={_viewMode}");
+        _stateMachine = new KeyCapStateMachine(Cfg.FadeDurationMs);
         _queue = new KeyEventQueue(ProcessKeyEvent, intervalMs: 16);
         StatusMonitor.Start();
     }
 
-    // ── 建立 KeyCaps ─────────────────────────────────────
+    // ── 建立 KeyCaps（委派給 KeymapService）────────────────
 
     private void BuildKeyCaps()
     {
-        var entries = _repository.GetLayoutEntries();
-        foreach (var entry in entries)
+        var caps = _keymapSvc.BuildKeyCaps();
+        foreach (var cap in caps)
         {
-            var vm = new KeyCapViewModel
-            {
-                KeyId           = entry.KeyId,
-                VkCode          = entry.VkCode,
-                PrimaryLabel    = entry.StandardLabel,
-                TraditionalLabel = entry.TraditionalLabel,
-                SecondaryLabel      = entry.HsuLabel,
-                SecondaryShiftLabel = entry.HsuShiftLabel,
-                IsModifier      = entry.IsModifier,
-                IsFunctionKey   = entry.IsFunctionKey,
-                WidthUnit       = entry.WidthMultiplier,
-                Row             = entry.Row,
-                Column          = entry.Col,   // 現在是 double 累計偏移
-                LayoutGroup     = ResolveLayoutGroup(entry),
-                IsVisible       = true
-            };
-            KeyCaps.Add(vm);
-            _keyCapMap[entry.KeyId] = vm;
+            KeyCaps.Add(cap);
+            _keyCapMap[cap.KeyId] = cap;
         }
-    }
-
-    private static string ResolveLayoutGroup(KeyMapEntry entry)
-    {
-        if (!string.IsNullOrEmpty(entry.LayoutGroup) && entry.LayoutGroup != "Main")
-            return entry.LayoutGroup;
-        if (entry.KeyId.StartsWith("key_f") && int.TryParse(entry.KeyId[5..], out _))
-            return "Function";
-        if (entry.KeyId is "key_ins" or "key_del" or "key_home" or "key_end"
-                        or "key_pgup" or "key_pgdn" or "key_up" or "key_down"
-                        or "key_left" or "key_right")
-            return "Navigation";
-        if (entry.KeyId.StartsWith("key_num"))
-            return "Numpad";
-        return "Main";
     }
 
     // ── ViewMode ─────────────────────────────────────────
@@ -168,8 +140,8 @@ public partial class OverlayViewModel : INotifyPropertyChanged
         bool isCompact = viewMode == "Compact";
         foreach (var cap in KeyCaps)
             cap.IsVisible = !isCompact || cap.LayoutGroup == "Main";
-        _config.ViewMode = viewMode;
-        ConfigService.Save(_config);
+        Cfg.ViewMode = viewMode;
+        _configSvc.SaveDebounced();
     }
 
     // ── 鍵盤事件 ─────────────────────────────────────────
@@ -185,41 +157,38 @@ public partial class OverlayViewModel : INotifyPropertyChanged
 
         if (cap.IsModifier)
         {
-            cap.IsPressed = data.IsKeyDown;
+            // 修飾鍵：直接同步實體狀態，無 Fading
+            _stateMachine.OnModifierChanged(cap, data.IsKeyDown);
         }
         else
         {
-            if (!data.IsKeyDown) return;
+            if (data.IsKeyDown)
+            {
+                _stateMachine.OnNormalKeyDown(cap);
 
-            // 清除上一個高亮（持久高亮：新鍵才清舊的）
-            ClearAllNonModifierHighlights();
-
-            cap.FadeState = FadeState.Pressed;
-            // 持久高亮：不設 Fade 計時器，按新鍵才清除
-
-            if (_config.ShowRecentKeys)
-                UpdateRecentKeys(displayInfo.DisplayLabel, false);
+                if (Cfg.ShowRecentKeys)
+                    UpdateRecentKeys(displayInfo.DisplayLabel, false);
+            }
+            else
+            {
+                _stateMachine.OnNormalKeyUp(cap);
+            }
         }
 
+        // 修飾鍵組合高亮同步（按下時更新）
         if (data.IsKeyDown)
             HighlightModifiers(data.Modifiers);
     }
 
     private void ClearAllNonModifierHighlights()
     {
-        foreach (var timer in _fadeTimers.Values) timer.Stop();
-        _fadeTimers.Clear();
-        foreach (var cap in KeyCaps)
-            if (!cap.IsModifier && cap.FadeState != FadeState.Normal)
-                cap.FadeState = FadeState.Normal;
+        _stateMachine.ClearAllNormalKeys(KeyCaps);
     }
 
     /// <summary>手動清除所有高亮（清除按鈕用）</summary>
     public void ClearHighlight()
     {
-        ClearAllNonModifierHighlights();
-        foreach (var cap in KeyCaps)
-            cap.IsPressed = false;
+        _stateMachine.ClearAll(KeyCaps);
         RecentKeys.Clear();
         AppLogger.Info("手動清除高亮");
     }
@@ -243,7 +212,7 @@ public partial class OverlayViewModel : INotifyPropertyChanged
     {
         if (string.IsNullOrWhiteSpace(label)) return;
         RecentKeys.Insert(0, new RecentKeyItem { Label = label, IsModifier = isModifier });
-        while (RecentKeys.Count > _config.RecentKeysCount)
+        while (RecentKeys.Count > Cfg.RecentKeysCount)
             RecentKeys.RemoveAt(RecentKeys.Count - 1);
     }
 
@@ -251,17 +220,17 @@ public partial class OverlayViewModel : INotifyPropertyChanged
 
     public void ToggleLayout()
     {
-        _config.LayoutMode = _config.LayoutMode == "Hsu" ? "Standard" : "Hsu";
-        LayoutMode = _config.LayoutMode;
-        ConfigService.Save(_config);
-        AppLogger.Info($"切換 Layout: {_config.LayoutMode} ({LayoutLabel})");
+        Cfg.LayoutMode = Cfg.LayoutMode == "Hsu" ? "Standard" : "Hsu";
+        LayoutMode = Cfg.LayoutMode;
+        _configSvc.SaveDebounced();
+        AppLogger.Info($"切換 Layout: {Cfg.LayoutMode} ({LayoutLabel})");
     }
 
     public void ToggleLock()
     {
         IsLocked = !IsLocked;
-        _config.OverlayLocked = IsLocked;
-        ConfigService.Save(_config);
+        Cfg.OverlayLocked = IsLocked;
+        _configSvc.SaveDebounced();
     }
 
     public void ToggleViewMode()
@@ -281,22 +250,22 @@ public partial class OverlayViewModel : INotifyPropertyChanged
             "HsuOnly"         => "EnglishAndHsu",
             _                 => "All"
         };
-        _config.LabelMode = LabelMode;
-        ConfigService.Save(_config);
-        AppLogger.Info($"切換 LabelMode: {LabelMode} -> Label顯示: {LabelModeLabel}");
+        Cfg.LabelMode = LabelMode;
+        _configSvc.SaveDebounced();
+        AppLogger.Info($"切換 LabelMode: {LabelMode} -> {LabelModeLabel}");
     }
 
     public void IncreaseOpacity()
     {
         OverlayOpacity = Math.Min(1.0, _overlayOpacity + 0.1);
-        ConfigService.Save(_config);
+        _configSvc.SaveDebounced();
         AppLogger.Info($"透明度: {_overlayOpacity:F1}");
     }
 
     public void DecreaseOpacity()
     {
         OverlayOpacity = Math.Max(0.2, _overlayOpacity - 0.1);
-        ConfigService.Save(_config);
+        _configSvc.SaveDebounced();
         AppLogger.Info($"透明度: {_overlayOpacity:F1}");
     }
 
@@ -308,22 +277,17 @@ public partial class OverlayViewModel : INotifyPropertyChanged
             "Medium" => "Large",
             _        => "Small"
         };
-        _config.ScaleMode = ScaleMode;
-        ConfigService.Save(_config);
+        Cfg.ScaleMode = ScaleMode;
+        _configSvc.SaveDebounced();
         AppLogger.Info($"切換 ScaleMode: {ScaleMode}");
     }
 
     // ── 輔助 ─────────────────────────────────────────────
 
-    public AppConfig GetConfig() => _config;
+    public AppConfig GetConfig() => Cfg;
 
     public void SaveWindowPosition(double left, double top)
-    {
-        if (!_config.RememberWindowPosition) return;
-        _config.WindowLeft = left;
-        _config.WindowTop  = top;
-        ConfigService.Save(_config);
-    }
+        => _configSvc.SaveWindowPosition(left, top);
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? name = null)

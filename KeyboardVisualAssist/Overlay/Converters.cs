@@ -16,7 +16,7 @@ public class BoolToVisibilityConverter : IValueConverter
 }
 
 /// <summary>
-/// FadeState + IsModifier → Background Brush（三色主題）
+/// KeyCapState + IsModifier → Background Brush（三色主題）
 /// 英文/功能鍵 = 暗灰底，高亮=藍
 /// 修飾鍵 = 深色底，高亮=橙
 /// </summary>
@@ -28,31 +28,31 @@ public class FadeStateToBrushConverter : IMultiValueConverter
     public static readonly SolidColorBrush ModNormalBrush  = new(Color.FromRgb(0x22, 0x22, 0x22));
     public static readonly SolidColorBrush ModPressedBrush = new(Color.FromRgb(0xFF, 0x88, 0x00));
 
-    /// values[0]=DisplayFadeState, values[1]=IsModifier
+    /// values[0]=DisplayState (KeyCapState), values[1]=IsModifier
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var state = values[0] is FadeState fs ? fs : FadeState.Normal;
+        var state = values[0] is KeyCapState s ? s : KeyCapState.Normal;
         var isMod = values[1] is bool b && b;
         if (isMod)
-            return state == FadeState.Pressed ? ModPressedBrush : ModNormalBrush;
+            return state == KeyCapState.Pressed ? ModPressedBrush : ModNormalBrush;
         return state switch
         {
-            FadeState.Pressed => PressedBrush,
-            FadeState.Fading  => FadingBrush,
-            _                 => NormalBrush
+            KeyCapState.Pressed => PressedBrush,
+            KeyCapState.Fading  => FadingBrush,
+            _                   => NormalBrush
         };
     }
     public object[] ConvertBack(object value, Type[] t, object p, CultureInfo c) => throw new NotImplementedException();
 }
 
-/// <summary>FadeState → Border Brush（Pressed/Fading 時加亮邊框）</summary>
-[ValueConversion(typeof(FadeState), typeof(Brush))]
+/// <summary>KeyCapState → Border Brush（Pressed/Fading 時加亮邊框）</summary>
+[ValueConversion(typeof(KeyCapState), typeof(Brush))]
 public class FadeStateToBorderBrushConverter : IValueConverter
 {
     private static readonly SolidColorBrush NormalBorder = new(Color.FromRgb(0x55, 0x55, 0x55));
     private static readonly SolidColorBrush ActiveBorder = new(Color.FromRgb(0x00, 0xCC, 0xFF));
     public object Convert(object value, Type t, object p, CultureInfo c)
-        => value is FadeState.Pressed or FadeState.Fading ? ActiveBorder : NormalBorder;
+        => value is KeyCapState.Pressed or KeyCapState.Fading ? ActiveBorder : NormalBorder;
     public object ConvertBack(object value, Type t, object p, CultureInfo c) => throw new NotImplementedException();
 }
 

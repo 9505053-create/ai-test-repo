@@ -25,7 +25,7 @@ public class KeyCapViewModel : INotifyPropertyChanged
     public double WidthUnit { get; set; } = 1.0;
     public double HeightUnit { get; set; } = 1.0;
     public int Row { get; set; }
-    public double Column { get; set; }   // 改為 double，支援累計偏移
+    public double Column { get; set; }
     public string LayoutGroup { get; set; } = "Main";
 
     // ── 動態狀態 ─────────────────────────────────────────
@@ -33,19 +33,31 @@ public class KeyCapViewModel : INotifyPropertyChanged
     public bool IsPressed
     {
         get => _isPressed;
-        set { _isPressed = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayFadeState)); }
+        set { _isPressed = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayState)); }
     }
 
-    private FadeState _fadeState = FadeState.Normal;
-    public FadeState FadeState
+    private KeyCapState _state = KeyCapState.Normal;
+    public KeyCapState State
     {
-        get => _fadeState;
-        set { _fadeState = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayFadeState)); }
+        get => _state;
+        set { _state = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayState)); }
     }
 
-    public FadeState DisplayFadeState => IsModifier
-        ? (IsPressed ? FadeState.Pressed : FadeState.Normal)
-        : _fadeState;
+    /// <summary>
+    /// 修飾鍵：由 IsPressed 決定顯示狀態（Pressed / Normal）。
+    /// 一般鍵：直接反映 State（Normal / Pressed / Fading）。
+    /// </summary>
+    public KeyCapState DisplayState => IsModifier
+        ? (IsPressed ? KeyCapState.Pressed : KeyCapState.Normal)
+        : _state;
+
+    // ── 相容屬性（供 XAML DataTrigger 過渡期使用）────────
+    /// <summary>舊名稱橋接，等 XAML 全改完後可移除</summary>
+    public KeyCapState FadeState
+    {
+        get => _state;
+        set => State = value;
+    }
 
     private bool _isVisible = true;
     public bool IsVisible
@@ -59,4 +71,17 @@ public class KeyCapViewModel : INotifyPropertyChanged
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
 
-public enum FadeState { Normal, Pressed, Fading }
+/// <summary>鍵帽視覺狀態機狀態</summary>
+public enum KeyCapState
+{
+    /// <summary>預設，無高亮</summary>
+    Normal,
+    /// <summary>按下中（一般鍵按下瞬間 / 修飾鍵按住中）</summary>
+    Pressed,
+    /// <summary>僅一般鍵：放開後短暫殘影，計時結束後回到 Normal</summary>
+    Fading,
+    /// <summary>預留：CapsLock 鎖定態 / 未來切換鍵用</summary>
+    Latched
+}
+
+
