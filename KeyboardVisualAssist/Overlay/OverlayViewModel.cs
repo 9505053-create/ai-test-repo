@@ -250,6 +250,40 @@ public partial class OverlayViewModel : INotifyPropertyChanged
 
     // ── 切換操作 ─────────────────────────────────────────
 
+    // ── 剪貼簿顯示 ───────────────────────────────────────
+    private bool _showClipboard = false;
+    public bool ShowClipboard
+    {
+        get => _showClipboard;
+        set { _showClipboard = value; OnPropertyChanged(); OnPropertyChanged(nameof(ClipboardLabel)); if (value) RefreshClipboard(); }
+    }
+    public string ClipboardLabel => _showClipboard ? "剪貼簿" : "剪貼簿";
+
+    private string _clipboardText = "";
+    public string ClipboardText
+    {
+        get => _clipboardText;
+        set { _clipboardText = value; OnPropertyChanged(); }
+    }
+
+    public void ToggleClipboard()
+    {
+        ShowClipboard = !ShowClipboard;
+        AppLogger.Info($"剪貼簿顯示: {ShowClipboard}");
+    }
+
+    public void RefreshClipboard()
+    {
+        try
+        {
+            if (System.Windows.Clipboard.ContainsText())
+                ClipboardText = System.Windows.Clipboard.GetText();
+            else
+                ClipboardText = "（剪貼簿無文字內容）";
+        }
+        catch { ClipboardText = "（無法讀取剪貼簿）"; }
+    }
+
     // ── 輔助線 ───────────────────────────────────────────
     private bool _showGuideLines = true;
     public bool ShowGuideLines

@@ -138,6 +138,15 @@ public partial class OverlayWindow : Window
     private void OnToggleGuideLines(object sender, RoutedEventArgs e)
         => _viewModel.ToggleGuideLines();
 
+    private void OnToggleClipboard(object sender, RoutedEventArgs e)
+        => _viewModel.ToggleClipboard();
+
+    private void OnClipboardRefresh(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        _viewModel.RefreshClipboard();
+        e.Handled = true;
+    }
+
     private void OnCycleLabelMode(object sender, RoutedEventArgs e)
         => _viewModel.CycleLabelMode();
 
