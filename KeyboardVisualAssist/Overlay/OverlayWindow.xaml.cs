@@ -18,9 +18,13 @@ public partial class OverlayWindow : Window
     [DllImport("user32.dll")] static extern int SetWindowLong(IntPtr h, int n, int v);
     #endregion
 
-    private readonly OverlayViewModel _viewModel;
-    private const double ControlBarHeight = 36.0;  // 標題列高度（含 scale）
+    // ── Hit-Test 區域常數（未縮放 px，對應 XAML 設計值）────
+    /// <summary>標題列高度：DockPanel Top Height=26 + Margin bottom=4 = 30，加 padding 5 ≒ 35</summary>
+    private const double TitleBarHeightPx = 35.0;
+    /// <summary>底部 Grip Bar 高度：Height=22 + Margin top=3 = 25</summary>
+    private const double GripBarHeightPx  = 25.0;
 
+    private readonly OverlayViewModel _viewModel;
     private double _savedLeft, _savedTop;
     private bool _isMinimized = false;
 
@@ -42,7 +46,13 @@ public partial class OverlayWindow : Window
     }
 
     // ── WM_NCHITTEST 分區穿透 ─────────────────────────────
-
+    //
+    // 互動區域規則：
+    //   [永遠可點] 標題列（Top，含所有控制按鈕）
+    //   [永遠可點] 底部 Grip Bar（含狀態顯示）
+    //   [Locked]   鍵盤主體 → HTTRANSPARENT（完全穿透，不干擾文書操作）
+    //   [Unlocked] 鍵盤主體 → HTCLIENT（可互動 / 可拖曳）
+    //
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         if (msg == WM_NCHITTEST)
@@ -51,15 +61,25 @@ public partial class OverlayWindow : Window
             int sy = (short)((lParam.ToInt32() >> 16) & 0xFFFF);
             var pt = PointFromScreen(new Point(sx, sy));
 
-            // 標題列（頂部）或底部條 → 永遠可點擊
-            double scaledCtrlHeight = ControlBarHeight * _viewModel.WindowScale;
-            if (pt.Y <= scaledCtrlHeight || pt.Y >= ActualHeight - 24 * _viewModel.WindowScale)
+            double scale           = _viewModel.WindowScale;
+            double titleBarBottom  = TitleBarHeightPx * scale;   // 標題列底緣
+            double gripBarTop      = ActualHeight - GripBarHeightPx * scale; // Grip Bar 頂緣
+
+            // ① 標題列：永遠可點擊
+            if (pt.Y <= titleBarBottom)
             {
                 handled = true;
                 return new IntPtr(HTCLIENT);
             }
 
-            // 鍵盤主體：Locked 時穿透
+            // ② 底部 Grip Bar：永遠可點擊（含拖曳）
+            if (pt.Y >= gripBarTop)
+            {
+                handled = true;
+                return new IntPtr(HTCLIENT);
+            }
+
+            // ③ 鍵盤主體：Locked → 穿透；Unlocked → 可互動
             if (_viewModel.IsLocked)
             {
                 handled = true;
