@@ -19,8 +19,12 @@ public partial class KeyButton : UserControl
             ApplyKeyStyle(vm);
     }
 
+    private KeyCapViewModel? _vm;
+
     private void ApplyKeyStyle(KeyCapViewModel vm)
     {
+        _vm = vm;
+
         // 鍵帽寬度
         KeyBorder.Width = vm.WidthUnit * BaseKeyWidth - 3;
 
@@ -36,23 +40,54 @@ public partial class KeyButton : UserControl
             MainText.FontSize = 9;
         }
 
-        // CenterPhonetic：TraditionalOnly 顯示 Traditional，HsuOnly 顯示 Hsu
-        // 用 DataContext Binding 自動更新，這裡設初始值
+        // 初始值
         UpdateCenterPhonetic(vm);
+
+        // 監聽 KeyCapViewModel 標籤變化
         vm.PropertyChanged += (s, ev) =>
         {
             if (ev.PropertyName is nameof(KeyCapViewModel.SecondaryLabel)
                                  or nameof(KeyCapViewModel.TraditionalLabel))
                 UpdateCenterPhonetic(vm);
         };
-        UpdateCenterPhonetic(vm);
+
+        // 監聽 LayoutMode 切換：延遲到 Loaded 後才能取得 Window
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Loaded -= OnLoaded;
+        if (_vm == null) return;
+        var vm = _vm;
+
+        if (Window.GetWindow(this)?.DataContext is OverlayViewModel ovm)
+        {
+            ovm.PropertyChanged += (s, ev) =>
+            {
+                if (ev.PropertyName == nameof(OverlayViewModel.LayoutMode))
+                    UpdateCenterPhonetic(vm);
+            };
+        }
     }
 
     private void UpdateCenterPhonetic(KeyCapViewModel vm)
     {
-        TraditionalCenterText.Text = vm.TraditionalLabel;
+        // 取得目前 LayoutMode（從 Window DataContext 的 OverlayViewModel）
+        string layoutMode = "Standard";
+        if (Window.GetWindow(this)?.DataContext is OverlayViewModel ovm)
+            layoutMode = ovm.LayoutMode;
+
+        // TraditionalOnly 模式（「注」）：
+        //   Standard → 顯示傳統注音（TraditionalLabel，藍色）
+        //   Hsu      → 顯示許氏主音（SecondaryLabel，但用藍色 TextBlock 顯示）
+        TraditionalCenterText.Text = layoutMode == "Hsu"
+            ? vm.SecondaryLabel
+            : vm.TraditionalLabel;
+
+        // HsuOnly 模式（「許」）：永遠顯示許氏主音
         HsuCenterText.Text = vm.SecondaryLabel;
-        // HsuShiftCenterText 在 HsuOnly 模式右上角顯示 Shift 音
+
         if (HsuShiftCenterText != null)
             HsuShiftCenterText.Text = vm.SecondaryShiftLabel;
     }
